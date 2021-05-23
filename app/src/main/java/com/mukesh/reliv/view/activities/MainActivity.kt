@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         context = this@MainActivity
-
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         mBinding.btnClick.setOnClickListener {
