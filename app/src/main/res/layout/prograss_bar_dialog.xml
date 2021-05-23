@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/_20sdp"
+    tools:viewBindingIgnore="true">
+
+    <ir.alirezabdn.wp7progress.WP10ProgressBar
+        android:id="@+id/wp7_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:animationDuration="1500"
+        app:indicatorColor="@color/white"
+        app:indicatorHeight="10"
+        app:indicatorRadius="5"
+        app:interval="100" />
+
+    <TextView
+        android:id="@+id/progress_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="Please Wait..."
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_14sdp"
+        android:visibility="gone"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>

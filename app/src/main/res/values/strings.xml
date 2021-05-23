@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Reliv</string>
+    <string name="degree_sign">&#176;</string>
+    <string name="splash_title">Reliv</string>
+    <string name="splash_sub_title">Live Life Healthy</string>
+    <string name="mobile">Mobile</string>
+    <string name="lbl_login">Login</string>
+    <string name="lbl_password">Password</string>
+    <string name="lbl_sign_in">Sign In</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="please_enter_mobile_number">Please enter mobile number</string>
+    <string name="please_enter_password">Please enter password</string>
+    <string name="entered_mobile_number_length_should_be_10">Entered mobile number length should be 10</string>
+    <string name="get_started">Get Started</string>
+    <string name="live_life">Live Life</string>
+    <string name="healthy">Healthy</string>
+    <string name="life_isn_t_about">Life isn\'t about</string>
+    <string name="finding_yourself">Finding yourself,</string>
+    <string name="life_is_about_creating_yourself">Life is about creating\nYourself</string>
+    <string name="your_can_create">You can create</string>
+    <string name="your_life">your life,</string>
+    <string name="however_you_wish_it_to_be">However you wish\nit to be</string>
+    <string name="there_is_nothing">There is nothing</string>
+    <string name="either_good_or_bad">either good or bad,</string>
+    <string name="but_thinking_makes_it_so">but thinking makes it so</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="username">Username</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="please_enter_username">Please enter username</string>
+    <string name="country_code">+91</string>
+    <string name="enter_4_digit_code">Enter 4 digit Code</string>
+    <string name="resend">Resend</string>
+</resources>

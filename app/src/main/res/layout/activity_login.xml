@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_dark_color"
+    android:orientation="vertical"
+    tools:context=".view.activities.SplashActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/username"
+                android:textColor="@color/gray_light_color"
+                android:textSize="@dimen/_15sdp" />
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/rounded_gray_bg"
+                android:gravity="center"
+                android:hint="@string/enter_username"
+                android:importantForAutofill="no"
+                android:inputType="textCapWords"
+                android:padding="@dimen/_7sdp"
+                android:textColor="@color/gray_dark_color"
+                android:textColorHint="@color/gray_light_color"
+                android:textSize="@dimen/_15sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/mobile"
+                android:textColor="@color/gray_light_color"
+                android:textSize="@dimen/_15sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:background="@drawable/rounded_gray_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_7sdp"
+                    android:text="@string/country_code"
+                    android:textColor="@color/gray_dark_color"
+                    android:textSize="@dimen/_15sdp" />
+
+                <ImageView
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:background="@color/gray_light_color"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/et_mob_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:digits="0123456789"
+                    android:gravity="center"
+                    android:hint="@string/enter_mobile_number"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:padding="@dimen/_7sdp"
+                    android:textColor="@color/gray_dark_color"
+                    android:textColorHint="@color/gray_light_color"
+                    android:textSize="@dimen/_15sdp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_get_otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cardView"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:layout_marginEnd="@dimen/_60sdp"
+        android:backgroundTint="@color/secondary_color"
+        android:backgroundTintMode="add"
+        android:elevation="@dimen/_20sdp"
+        android:padding="@dimen/_5sdp"
+        android:text="@string/get_otp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_15sdp"
+        tools:targetApi="lollipop" />
+
+</RelativeLayout>
