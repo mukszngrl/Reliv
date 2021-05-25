@@ -14,27 +14,27 @@
         android:orientation="vertical"
         android:padding="@dimen/_15sdp">
 
-        <imageview
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher_round" />
 
-        <textview
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margintop="@dimen/_15sdp"
-            android:fontfamily="@font/helvetica"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/helvetica"
             android:gravity="center"
             android:text="@string/enter_4_digit_code"
-            android:textcolor="@color/gray_dark_color"
-            android:textsize="@dimen/_15sdp" />
+            android:textColor="@color/gray_dark_color"
+            android:textSize="@dimen/_15sdp" />
 
-        <in.aabhasjindal.otptextview.otptextview
+        <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/otp_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
-            android:textcolor="@color/black"
+            android:textColor="@color/black"
             app:bar_active_color="@color/primary_dark_color"
             app:bar_height="@dimen/_2sdp"
             app:box_margin="@dimen/_5sdp"
@@ -45,36 +45,36 @@
             app:text_typeface="@font/helvetica_rounded_bold"
             app:width="@dimen/_40sdp" />
 
-        <linearlayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginstart="@dimen/_10sdp"
-            android:layout_marginend="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="horizontal">
 
-            <textview
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margintop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_weight="1"
-                android:fontfamily="@font/helvetica"
+                android:fontFamily="@font/helvetica"
                 android:gravity="start"
                 android:text="00:15"
-                android:textcolor="@color/gray_dark_color"
-                android:textsize="@dimen/_15sdp" />
+                android:textColor="@color/gray_dark_color"
+                android:textSize="@dimen/_15sdp" />
 
-            <textview
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margintop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_weight="1"
-                android:fontfamily="@font/helvetica"
+                android:fontFamily="@font/helvetica"
                 android:gravity="end"
                 android:text="@string/resend"
-                android:textcolor="@color/gray_dark_color"
-                android:textsize="@dimen/_15sdp"
-                app:drawableendcompat="@drawable/arrow_right" />
-        </linearlayout>
+                android:textColor="@color/gray_dark_color"
+                android:textSize="@dimen/_15sdp"
+                app:drawableEndCompat="@drawable/arrow_right" />
+        </LinearLayout>
 
     </LinearLayout>
 

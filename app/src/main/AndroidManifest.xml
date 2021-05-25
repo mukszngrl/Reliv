@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Reliv">
-
         <activity
             android:name=".view.activities.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Reliv.NoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,16 +24,25 @@
         </activity>
         <activity
             android:name=".view.activities.HelpScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Reliv.NoActionbar" />
         <activity
             android:name=".view.activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Reliv.NoActionbar" />
         <activity
+            android:name=".view.activities.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reliv.NoActionbar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".view.activities.MainActivity"
-            android:label="Dashboard" />
+            android:label="Dashboard"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.PaymentActivity"
-            android:label="Payment" />
+            android:label="Payment"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

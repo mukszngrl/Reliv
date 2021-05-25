@@ -32,4 +32,14 @@
     <string name="country_code">+91</string>
     <string name="enter_4_digit_code">Enter 4 digit Code</string>
     <string name="resend">Resend</string>
+    <string name="hello">Hello</string>
+    <string name="what_s_your_name">What\'s your Name?</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="upload_your_photo">Upload Your Photo</string>
+    <string name="take_selfie_upload">Take Selfie/Upload</string>
+    <string name="next">Next</string>
+    <string name="choose_your_gender">Choose Your Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>

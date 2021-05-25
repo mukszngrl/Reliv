@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/userDetailsFragment">
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.mukesh.reliv.view.fragments.UserDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_user_details">
+        <action
+            android:id="@+id/action_userDetails_to_takePhoto"
+            app:destination="@id/takePhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/takePhotoFragment"
+        android:name="com.mukesh.reliv.view.fragments.TakePhotoFragment"
+        android:label=""
+        tools:layout="@layout/fragment_take_photo">
+        <action
+            android:id="@+id/action_takePhoto_to_genderSelection"
+            app:destination="@id/genderSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/genderSelectionFragment"
+        android:name="com.mukesh.reliv.view.fragments.GenderSelectionFragment"
+        android:label="fragment_gender_selection"
+        tools:layout="@layout/fragment_gender_selection" />
+</navigation>

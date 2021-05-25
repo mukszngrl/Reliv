@@ -1,10 +1,10 @@
 package com.mukesh.reliv.application
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.mukesh.reliv.common.AppConstants
 import com.mukesh.reliv.common.Preferences
 
-class RelivApplication : Application() {
+class RelivApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
