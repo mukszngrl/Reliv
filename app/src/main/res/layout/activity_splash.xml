@@ -20,11 +20,10 @@
             android:id="@+id/tv_splash_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/helvetica_rounded_bold"
             android:text="@string/splash_title"
             android:textColor="@color/primary_color"
-            android:textSize="@dimen/_40sdp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_40sdp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="@font/helvetica_light"
                 android:text="@string/live_life"
                 android:textColor="@color/gray_light_color"
                 android:textSize="@dimen/_15sdp"
@@ -44,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="@font/helvetica_rounded_bold"
                 android:text="@string/healthy"
                 android:textColor="@color/primary_color"
                 android:textSize="@dimen/_15sdp"

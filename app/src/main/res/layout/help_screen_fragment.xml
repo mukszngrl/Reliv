@@ -9,18 +9,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_60sdp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="@dimen/_60sdp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_title_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/helvetica"
             android:text="@string/life_isn_t_about"
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp" />
@@ -29,17 +29,18 @@
             android:id="@+id/tv_title_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="-5dp"
+            android:fontFamily="@font/helvetica_bold"
             android:text="@string/finding_yourself"
             android:textColor="@color/black"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_20sdp" />
 
         <TextView
             android:id="@+id/tv_title_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="-5dp"
+            android:fontFamily="@font/helvetica"
             android:text="@string/life_is_about_creating_yourself"
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp" />

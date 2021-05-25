@@ -39,6 +39,7 @@
         android:paddingEnd="@dimen/_50sdp"
         android:text="@string/get_started"
         android:textSize="@dimen/_15sdp"
+        android:fontFamily="@font/helvetica_rounded_bold"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

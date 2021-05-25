@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:fontFamily="@font/helvetica"
                 android:text="@string/username"
                 android:textColor="@color/gray_light_color"
                 android:textSize="@dimen/_15sdp" />
@@ -39,6 +40,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/rounded_gray_bg"
+                android:fontFamily="@font/helvetica"
                 android:gravity="center"
                 android:hint="@string/enter_username"
                 android:importantForAutofill="no"
@@ -52,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:fontFamily="@font/helvetica"
                 android:text="@string/mobile"
                 android:textColor="@color/gray_light_color"
                 android:textSize="@dimen/_15sdp" />
@@ -68,6 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvetica"
                     android:padding="@dimen/_7sdp"
                     android:text="@string/country_code"
                     android:textColor="@color/gray_dark_color"
@@ -87,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:digits="0123456789"
+                    android:fontFamily="@font/helvetica"
                     android:gravity="center"
                     android:hint="@string/enter_mobile_number"
                     android:imeOptions="actionDone"
@@ -115,6 +120,7 @@
         android:backgroundTint="@color/secondary_color"
         android:backgroundTintMode="add"
         android:elevation="@dimen/_20sdp"
+        android:fontFamily="@font/helvetica_rounded_bold"
         android:padding="@dimen/_5sdp"
         android:text="@string/get_otp"
         android:textAllCaps="false"
