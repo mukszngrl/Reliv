@@ -48,7 +48,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     def lifecycle_version = "2.3.1"
     // - - ViewModel
@@ -86,4 +86,5 @@ dependencies {
     // - - ViewPager Indicator
     implementation 'com.github.zhpanvip:viewpagerindicator:1.2.0'
     implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'
+    implementation 'com.kevalpatel2106:ruler-picker:1.0'
 }

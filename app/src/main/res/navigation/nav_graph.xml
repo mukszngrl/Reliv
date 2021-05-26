@@ -26,5 +26,32 @@
         android:id="@+id/genderSelectionFragment"
         android:name="com.mukesh.reliv.view.fragments.GenderSelectionFragment"
         android:label="fragment_gender_selection"
-        tools:layout="@layout/fragment_gender_selection" />
+        tools:layout="@layout/fragment_gender_selection">
+        <action
+            android:id="@+id/action_genderSelection_to_yourHeight"
+            app:destination="@id/yourHeightFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yourHeightFragment"
+        android:name="com.mukesh.reliv.view.fragments.YourHeightFragment"
+        android:label="fragment_your_height"
+        tools:layout="@layout/fragment_your_height" >
+        <action
+            android:id="@+id/action_yourHeight_to_yourWeight"
+            app:destination="@id/yourWeightFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yourWeightFragment"
+        android:name="com.mukesh.reliv.view.fragments.YourWeightFragment"
+        android:label="fragment_your_weight"
+        tools:layout="@layout/fragment_your_weight" >
+        <action
+            android:id="@+id/action_yourWeight_to_dateOfBirth"
+            app:destination="@id/dateOfBirthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dateOfBirthFragment"
+        android:name="com.mukesh.reliv.view.fragments.DateOfBirthFragment"
+        android:label="fragment_date_of_birth"
+        tools:layout="@layout/fragment_date_of_birth" />
 </navigation>

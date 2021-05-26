@@ -6,6 +6,10 @@ import java.util.*
 
 object CalendarUtils {
 
+    const val DD_PATTERN = "dd"
+    const val MM_PATTERN = "MM"
+    const val YYYY_PATTERN = "yyyy"
+
     fun getCurrentDateToFormat(toPattern: String?): String? {
         val date: String?
         val sdf = SimpleDateFormat(toPattern, Locale.ENGLISH)

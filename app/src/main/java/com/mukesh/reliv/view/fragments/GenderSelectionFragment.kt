@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.mukesh.reliv.R
 import com.mukesh.reliv.databinding.FragmentGenderSelectionBinding
 import com.mukesh.reliv.view.activities.SignUpActivity
@@ -28,13 +29,13 @@ class GenderSelectionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragBinding = FragmentGenderSelectionBinding.inflate(layoutInflater)
-        /*fragBinding.clMale.setOnClickListener {
-            findNavController().navigate(R.id.action_userDetails_to_takePhoto)
+        fragBinding.clMale.setOnClickListener {
+            findNavController().navigate(R.id.action_genderSelection_to_yourHeight)
         }
 
-        fragBinding.clMale.setOnClickListener {
-            findNavController().navigate(R.id.action_userDetails_to_takePhoto)
-        }*/
+        fragBinding.clFemale.setOnClickListener {
+            findNavController().navigate(R.id.action_genderSelection_to_yourHeight)
+        }
 
         fragBinding.ivBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()

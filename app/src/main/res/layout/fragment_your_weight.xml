@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_green"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_10sdp"
+    tools:context=".view.fragments.YourWeightFragment">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:src="@drawable/ic_back_white"
+        app:layout_constraintBottom_toTopOf="@id/ll_main"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,RtlSymmetry" />
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_selected_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:fontFamily="@font/helvetica_rounded_bold"
+                android:text="@string/_60_kg"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvetica"
+                    android:text="@string/your_weight"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sdp" />
+
+                <ImageView
+                    android:id="@+id/iv_male"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/male_green"
+                    tools:ignore="ContentDescription,NestedWeights" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white" />
+
+        <com.kevalpatel2106.rulerpicker.RulerValuePicker
+            android:id="@+id/weight_picker"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/transparent"
+            app:indicator_color="@color/white"
+            app:indicator_interval="14dp"
+            app:indicator_width="@dimen/_2sdp"
+            app:max_value="300"
+            app:min_value="10"
+            app:notch_color="@android:color/white"
+            app:ruler_text_size="@dimen/_6sdp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/Widget.Gray.ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/next"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_main"
+        app:shapeAppearance="@style/RoundedCornerButton5dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_30sdp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_next">
+
+        <View
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/light_blue" />
+
+        <View
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@color/light_blue" />
+
+        <View
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/gray_very_light_color" />
+
+        <View
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@color/gray_very_light_color" />
+
+        <View
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/gray_very_light_color" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
