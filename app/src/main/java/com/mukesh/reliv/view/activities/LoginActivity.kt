@@ -1,14 +1,11 @@
 package com.mukesh.reliv.view.activities
 
-import `in`.aabhasjindal.otptextview.OTPListener
-import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.telephony.SmsMessage
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mukesh.reliv.R
@@ -28,9 +25,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-
-        mBinding.etUsername.setText(Preferences.getStringFromPreference(Preferences.USERNAME, ""))
-        mBinding.etMobNo.setText(Preferences.getStringFromPreference(Preferences.MOBILE_NO, ""))
 
         if (mBinding.etUsername.text.toString() == "")
             mBinding.etUsername.requestFocus()
@@ -54,14 +48,6 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
                 else -> {
                     CustomLoader.showLoader(this)
-                    Preferences.saveStringInPreference(
-                        Preferences.USERNAME,
-                        mBinding.etUsername.text.toString()
-                    )
-                    Preferences.saveStringInPreference(
-                        Preferences.MOBILE_NO,
-                        mBinding.etMobNo.text.toString()
-                    )
                     showOTPPopup()
                 }
             }
@@ -90,7 +76,17 @@ class LoginActivity : AppCompatActivity() {
         mCustomOTPDialog.show()*/
         CustomLoader.hideLoader()
 
-        startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+        val userHashMap = Preferences.getUserHashMap()
+
+        if (userHashMap != null && userHashMap.containsKey(mBinding.etMobNo.text.toString())) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.putExtra("SignUpDO", userHashMap[mBinding.etMobNo.text.toString()])
+            startActivity(intent)
+        } else {
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            intent.putExtra("MobileNo", mBinding.etMobNo.text.toString())
+            startActivity(intent)
+        }
     }
 
     private val smsListener: BroadcastReceiver = object : BroadcastReceiver() {

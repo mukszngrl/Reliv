@@ -53,5 +53,23 @@
         android:id="@+id/dateOfBirthFragment"
         android:name="com.mukesh.reliv.view.fragments.DateOfBirthFragment"
         android:label="fragment_date_of_birth"
-        tools:layout="@layout/fragment_date_of_birth" />
+        tools:layout="@layout/fragment_date_of_birth" >
+        <action
+            android:id="@+id/action_dateOfBirth_to_yourLocation"
+            app:destination="@id/yourLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yourLocationFragment"
+        android:name="com.mukesh.reliv.view.fragments.YourLocationFragment"
+        android:label="fragment_your_location"
+        tools:layout="@layout/fragment_your_location" >
+        <action
+            android:id="@+id/action_yourLocation_to_changeLocation"
+            app:destination="@id/changeLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeLocationFragment"
+        android:name="com.mukesh.reliv.view.fragments.ChangeLocationFragment"
+        android:label="fragment_change_location"
+        tools:layout="@layout/fragment_change_location" />
 </navigation>

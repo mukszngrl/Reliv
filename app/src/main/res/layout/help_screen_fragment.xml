@@ -23,7 +23,7 @@
             android:fontFamily="@font/helvetica"
             android:text="@string/life_isn_t_about"
             android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <TextView
             android:id="@+id/tv_title_2"
@@ -33,7 +33,7 @@
             android:fontFamily="@font/helvetica_bold"
             android:text="@string/finding_yourself"
             android:textColor="@color/black"
-            android:textSize="@dimen/_20sdp" />
+            android:textSize="@dimen/_18sdp" />
 
         <TextView
             android:id="@+id/tv_title_3"
@@ -43,7 +43,7 @@
             android:fontFamily="@font/helvetica"
             android:text="@string/life_is_about_creating_yourself"
             android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

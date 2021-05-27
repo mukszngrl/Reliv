@@ -60,10 +60,10 @@
                     android:fontFamily="@font/helvetica"
                     android:text="@string/your_height"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_14sdp" />
 
                 <ImageView
-                    android:id="@+id/iv_male"
+                    android:id="@+id/iv_person"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/male"
@@ -427,7 +427,7 @@
         android:padding="@dimen/_10sdp"
         android:text="@string/next"
         android:textColor="@color/black"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_14sdp"
         app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

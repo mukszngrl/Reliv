@@ -27,7 +27,7 @@
             android:gravity="center"
             android:text="@string/enter_4_digit_code"
             android:textColor="@color/gray_dark_color"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/otp_view"
@@ -61,7 +61,7 @@
                 android:gravity="start"
                 android:text="00:15"
                 android:textColor="@color/gray_dark_color"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_14sdp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -72,7 +72,7 @@
                 android:gravity="end"
                 android:text="@string/resend"
                 android:textColor="@color/gray_dark_color"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_14sdp"
                 app:drawableEndCompat="@drawable/arrow_right" />
         </LinearLayout>
 

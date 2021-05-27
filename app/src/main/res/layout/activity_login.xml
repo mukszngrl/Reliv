@@ -31,7 +31,7 @@
                 android:fontFamily="@font/helvetica"
                 android:text="@string/username"
                 android:textColor="@color/gray_light_color"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_14sdp" />
 
             <EditText
                 android:id="@+id/et_username"
@@ -48,7 +48,7 @@
                 android:padding="@dimen/_7sdp"
                 android:textColor="@color/gray_dark_color"
                 android:textColorHint="@color/gray_light_color"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_14sdp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:fontFamily="@font/helvetica"
                 android:text="@string/mobile"
                 android:textColor="@color/gray_light_color"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_14sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                     android:padding="@dimen/_7sdp"
                     android:text="@string/country_code"
                     android:textColor="@color/gray_dark_color"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_14sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_1sdp"
@@ -101,7 +101,7 @@
                     android:padding="@dimen/_7sdp"
                     android:textColor="@color/gray_dark_color"
                     android:textColorHint="@color/gray_light_color"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_14sdp" />
 
             </LinearLayout>
 
@@ -120,11 +120,12 @@
         android:backgroundTint="@color/secondary_color"
         android:backgroundTintMode="add"
         android:elevation="@dimen/_20sdp"
-        android:fontFamily="@font/helvetica_rounded_bold"
+        android:fontFamily="@font/helvetica"
         android:padding="@dimen/_5sdp"
         android:text="@string/get_otp"
         android:textAllCaps="false"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold"
         tools:targetApi="lollipop" />
 
 </RelativeLayout>

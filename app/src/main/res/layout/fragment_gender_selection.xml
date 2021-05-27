@@ -35,7 +35,7 @@
             android:fontFamily="@font/helvetica"
             android:text="@string/choose_your_gender"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
 
         <LinearLayout
@@ -69,10 +69,10 @@
                     android:id="@+id/tv_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/helvetica_bold"
+                    android:fontFamily="@font/helvetica"
                     android:text="@string/male"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_14sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,10 +103,10 @@
                     android:id="@+id/tv_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/helvetica_bold"
+                    android:fontFamily="@font/helvetica"
                     android:text="@string/female"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_14sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

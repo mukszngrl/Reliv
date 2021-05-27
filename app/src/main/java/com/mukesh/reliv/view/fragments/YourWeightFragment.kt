@@ -4,31 +4,38 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.kevalpatel2106.rulerpicker.RulerValuePickerListener
 import com.mukesh.reliv.R
 import com.mukesh.reliv.databinding.FragmentYourWeightBinding
+import com.mukesh.reliv.model.SignUpDO
 import com.mukesh.reliv.view.activities.SignUpActivity
 
 class YourWeightFragment : Fragment() {
 
     private lateinit var fragBinding: FragmentYourWeightBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = (activity as SignUpActivity).window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = resources.getColor(R.color.light_green)
         }
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
         fragBinding = FragmentYourWeightBinding.inflate(layoutInflater)
+
+        val signUpDOTemp = arguments?.getSerializable("SignUpDO") as SignUpDO
+
+        if (signUpDOTemp.gender.equals("Male", ignoreCase = true))
+            fragBinding.ivPerson.setImageResource(R.drawable.male_green)
+        else
+            fragBinding.ivPerson.setImageResource(R.drawable.female)
 
         fragBinding.weightPicker.selectValue(55)
 
@@ -37,7 +44,19 @@ class YourWeightFragment : Fragment() {
         }
 
         fragBinding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_yourWeight_to_dateOfBirth)
+            val signUpDO = SignUpDO(
+                mobileNo = signUpDOTemp.mobileNo,
+                firstName = signUpDOTemp.firstName,
+                lastName = signUpDOTemp.lastName,
+                profileImagePath = signUpDOTemp.profileImagePath,
+                gender = signUpDOTemp.gender,
+                height = signUpDOTemp.height,
+                weight = fragBinding.tvSelectedWeight.text.toString()
+            )
+            val bundle = bundleOf(
+                "SignUpDO" to signUpDO
+            )
+            findNavController().navigate(R.id.action_yourWeight_to_dateOfBirth, bundle)
         }
 
         fragBinding.weightPicker.setValuePickerListener(object : RulerValuePickerListener {

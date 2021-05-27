@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_45sdp"
                 android:fontFamily="@font/helvetica_rounded_bold"
-                android:text="@string/_60_kg"
+                android:text="@string/_55_kg"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
 
@@ -63,10 +63,10 @@
                     android:fontFamily="@font/helvetica"
                     android:text="@string/your_weight"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_14sdp" />
 
                 <ImageView
-                    android:id="@+id/iv_male"
+                    android:id="@+id/iv_person"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/male_green"
@@ -93,7 +93,7 @@
             app:max_value="300"
             app:min_value="10"
             app:notch_color="@android:color/white"
-            app:ruler_text_size="@dimen/_6sdp" />
+            app:ruler_text_size="@dimen/_5sdp" />
 
     </LinearLayout>
 
@@ -108,7 +108,7 @@
         android:padding="@dimen/_10sdp"
         android:text="@string/next"
         android:textColor="@color/black"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_14sdp"
         app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

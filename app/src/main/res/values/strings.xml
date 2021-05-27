@@ -55,9 +55,35 @@
     <string name="_1_1_m">1.1 m</string>
     <string name="_1_0_m">1.0 m</string>
     <string name="your_weight">Your Weight</string>
-    <string name="_60_kg">60 Kg</string>
+    <string name="_55_kg">55 Kg</string>
     <string name="kg">Kg</string>
     <string name="date_of_birth">Date Of Birth</string>
+    <string name="select_your_location">Select Your Location</string>
+    <string name="your_location">Your Location</string>
+    <string name="change">Change</string>
+    <string name="enter_address_details">Enter Address Details</string>
+    <string name="house">House</string>
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip">Zip</string>
+    <string name="please_enter_first_name">Please enter first name</string>
+    <string name="please_enter_last_name">Please enter last name</string>
+    <string name="select_image_action">Select Image Action</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="please_cature_your_photo" />
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="alert">Alert</string>
+    <string name="alert_message">Alert Message</string>
+    <string name="please_select_your_date_of_birth">Please select your date of birth</string>
+    <string name="please_enter_your_address">Please enter your address</string>
+    <string name="please_enter_your_house_no">Please enter your house number</string>
+    <string name="please_enter_street">Please enter street</string>
+    <string name="please_enter_city">Please enter city</string>
+    <string name="please_enter_state">Please enter state</string>
+    <string name="please_enter_zip_code">Please enter zip code</string>
 
     <string-array name="month_list">
         <item>Jan</item>

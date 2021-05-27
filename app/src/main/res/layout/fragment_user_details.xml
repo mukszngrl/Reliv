@@ -33,7 +33,7 @@
             android:fontFamily="@font/helvetica"
             android:text="@string/hello"
             android:textColor="@color/gray_dark_color"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -41,9 +41,10 @@
             android:fontFamily="@font/helvetica"
             android:text="@string/what_s_your_name"
             android:textColor="@color/gray_dark_color"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <EditText
+            android:id="@+id/et_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
@@ -53,9 +54,10 @@
             android:inputType="textCapWords"
             android:textColor="@color/gray_dark_color"
             android:textColorHint="@color/gray_light_color"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <EditText
+            android:id="@+id/et_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
@@ -65,7 +67,7 @@
             android:inputType="textCapWords"
             android:textColor="@color/gray_dark_color"
             android:textColorHint="@color/gray_light_color"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_14sdp" />
 
     </LinearLayout>
 
@@ -79,7 +81,7 @@
         android:layout_marginEnd="@dimen/_5sdp"
         android:padding="@dimen/_10sdp"
         android:text="@string/next"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_14sdp"
         app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

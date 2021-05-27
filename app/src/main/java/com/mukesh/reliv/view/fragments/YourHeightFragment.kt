@@ -4,31 +4,37 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mukesh.reliv.R
 import com.mukesh.reliv.databinding.FragmentYourHeightBinding
+import com.mukesh.reliv.model.SignUpDO
 import com.mukesh.reliv.view.activities.SignUpActivity
 
 class YourHeightFragment : Fragment(), View.OnClickListener {
 
     private lateinit var fragBinding: FragmentYourHeightBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window: Window = (activity as SignUpActivity).window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = resources.getColor(R.color.dark_blue)
-        }
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = (activity as SignUpActivity).window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = resources.getColor(R.color.dark_blue)
+        }
+
         fragBinding = FragmentYourHeightBinding.inflate(layoutInflater)
+
+        val signUpDOTemp = arguments?.getSerializable("SignUpDO") as SignUpDO
+
+        if (signUpDOTemp.gender.equals("Male", ignoreCase = true))
+            fragBinding.ivPerson.setImageResource(R.drawable.male)
+        else
+            fragBinding.ivPerson.setImageResource(R.drawable.female)
 
         removeSelection()
         fragBinding.tv14m.textSize = 19F
@@ -48,7 +54,18 @@ class YourHeightFragment : Fragment(), View.OnClickListener {
         fragBinding.ll19m.setOnClickListener(this)
         fragBinding.ll20m.setOnClickListener(this)
         fragBinding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_yourHeight_to_yourWeight)
+            val signUpDO = SignUpDO(
+                mobileNo = signUpDOTemp.mobileNo,
+                firstName = signUpDOTemp.firstName,
+                lastName = signUpDOTemp.lastName,
+                profileImagePath = signUpDOTemp.profileImagePath,
+                gender = signUpDOTemp.gender,
+                height = fragBinding.tvSelectedHeight.text.toString()
+            )
+            val bundle = bundleOf(
+                "SignUpDO" to signUpDO
+            )
+            findNavController().navigate(R.id.action_yourHeight_to_yourWeight, bundle)
         }
         fragBinding.ivBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
