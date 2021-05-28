@@ -26,7 +26,7 @@
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="Please Wait..."
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="@dimen/_14sdp"
         android:visibility="gone"
         tools:ignore="HardcodedText" />

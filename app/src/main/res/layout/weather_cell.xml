@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
     app:cardUseCompatPadding="true">
@@ -35,6 +36,7 @@
                 android:layout_weight=".5"
                 android:drawablePadding="5dp"
                 android:text="40%"
+                android:textColor="@color/gray_light_color"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -44,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:text="14 km/h"
+                android:textColor="@color/gray_light_color"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -55,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="July 25 2019"
+            android:textColor="@color/gray_light_color"
             android:textSize="18sp" />
 
     </LinearLayout>

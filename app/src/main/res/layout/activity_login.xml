@@ -167,6 +167,7 @@
         android:padding="@dimen/_5sdp"
         android:text="@string/get_otp"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="@dimen/_14sdp"
         app:shapeAppearanceOverlay="@style/CornerSize5sdp" />
 

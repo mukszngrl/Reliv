@@ -12,12 +12,12 @@
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_marginTop="@dimen/_40sdp"
+        android:contentDescription="@string/logo"
         android:src="@drawable/reliv_logo"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -55,6 +55,7 @@
         android:paddingBottom="@dimen/_5sdp"
         android:text="@string/get_started"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

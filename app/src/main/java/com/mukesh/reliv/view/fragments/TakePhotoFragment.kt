@@ -74,6 +74,13 @@ class TakePhotoFragment : Fragment() {
 
         val signUpDOTemp = arguments?.getSerializable("SignUpDO") as SignUpDO
 
+        mImagePath.let {
+            Glide.with(this)
+                .load(mImagePath)
+                .centerCrop()
+                .into(fragBinding.ivProfileImage)
+        }
+
         fragBinding.btnNext.setOnClickListener {
             if (mImagePath.isEmpty())
                 CustomAlertDialog.showDialog(
@@ -104,13 +111,13 @@ class TakePhotoFragment : Fragment() {
         }
 
         fragBinding.btnTakePhoto.setOnClickListener {
-            customImageSelectionDialog()
+            showImageSelectionDialog()
         }
 
         return fragBinding.root
     }
 
-    private fun customImageSelectionDialog() {
+    private fun showImageSelectionDialog() {
         val dialog = Dialog(requireActivity())
         val binding: DialogCustomImageSelectionBinding =
             DialogCustomImageSelectionBinding.inflate(layoutInflater)

@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="@dimen/_10sdp"
-    app:chainUseRtl="true">
+    app:chainUseRtl="true"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tv_title"
@@ -32,7 +33,7 @@
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:text="@string/camera"
-        android:textColor="@color/blue_gray_700"
+        android:textColor="@color/gray_dark_color"
         android:textSize="@dimen/_14sdp"
         app:drawableTopCompat="@drawable/ic_vector_photo_camera"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +52,7 @@
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:text="@string/gallery"
-        android:textColor="@color/blue_gray_700"
+        android:textColor="@color/gray_dark_color"
         android:textSize="@dimen/_15sdp"
         app:drawableTopCompat="@drawable/ic_vector_gallery"
         app:layout_constraintBottom_toBottomOf="parent"
