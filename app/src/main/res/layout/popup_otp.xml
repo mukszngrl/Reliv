@@ -15,19 +15,21 @@
         android:padding="@dimen/_15sdp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round" />
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:src="@drawable/otp_message_icon" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:fontFamily="@font/helvetica"
             android:gravity="center"
             android:text="@string/enter_4_digit_code"
             android:textColor="@color/gray_dark_color"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="@dimen/_15sdp" />
 
         <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/otp_view"

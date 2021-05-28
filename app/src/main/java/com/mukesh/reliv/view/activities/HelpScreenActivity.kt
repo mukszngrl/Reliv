@@ -1,8 +1,10 @@
 package com.mukesh.reliv.view.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.mukesh.reliv.R
@@ -22,6 +24,11 @@ class HelpScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityHelpScreenBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = resources.getColor(R.color.white)
+        }
 
         val pagerAdapter = HelpScreenPagerAdapter(this)
         mBinding.vpHelpBanner.adapter = pagerAdapter

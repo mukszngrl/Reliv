@@ -33,7 +33,7 @@ class YourWeightFragment : Fragment() {
         val signUpDOTemp = arguments?.getSerializable("SignUpDO") as SignUpDO
 
         if (signUpDOTemp.gender.equals("Male", ignoreCase = true))
-            fragBinding.ivPerson.setImageResource(R.drawable.male_green)
+            fragBinding.ivPerson.setImageResource(R.drawable.male)
         else
             fragBinding.ivPerson.setImageResource(R.drawable.female)
 

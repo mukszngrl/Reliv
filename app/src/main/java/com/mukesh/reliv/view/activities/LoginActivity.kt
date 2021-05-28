@@ -1,11 +1,16 @@
 package com.mukesh.reliv.view.activities
 
+import `in`.aabhasjindal.otptextview.OTPListener
+import `in`.aabhasjindal.otptextview.OtpTextView
+import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsMessage
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mukesh.reliv.R
@@ -25,6 +30,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = resources.getColor(R.color.very_gray_light_color)
+        }
 
         if (mBinding.etUsername.text.toString() == "")
             mBinding.etUsername.requestFocus()
@@ -55,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showOTPPopup() {
-        /*val mCustomOTPDialog = Dialog(this)
+        val mCustomOTPDialog = Dialog(this)
         otpBinding = PopupOtpBinding.inflate(layoutInflater)
         mCustomOTPDialog.setContentView(otpBinding.root)
         otpBinding.otpView.requestFocus()
@@ -66,27 +76,27 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onOTPComplete(otp: String) {
-                Toast.makeText(this@LoginActivity, "The OTP is $otp", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                if (otp == "1234") {
+                    mCustomOTPDialog.dismiss()
+                    val userHashMap = Preferences.getUserHashMap()
+                    if (userHashMap != null && userHashMap.containsKey(mBinding.etMobNo.text.toString())) {
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.putExtra("SignUpDO", userHashMap[mBinding.etMobNo.text.toString()])
+                        startActivity(intent)
+                    } else {
+                        val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+                        intent.putExtra("MobileNo", mBinding.etMobNo.text.toString())
+                        startActivity(intent)
+                    }
+                }
             }
         })
 
         mCustomOTPDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         mCustomOTPDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        mCustomOTPDialog.show()*/
+        mCustomOTPDialog.show()
+
         CustomLoader.hideLoader()
-
-        val userHashMap = Preferences.getUserHashMap()
-
-        if (userHashMap != null && userHashMap.containsKey(mBinding.etMobNo.text.toString())) {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            intent.putExtra("SignUpDO", userHashMap[mBinding.etMobNo.text.toString()])
-            startActivity(intent)
-        } else {
-            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-            intent.putExtra("MobileNo", mBinding.etMobNo.text.toString())
-            startActivity(intent)
-        }
     }
 
     private val smsListener: BroadcastReceiver = object : BroadcastReceiver() {
@@ -128,5 +138,9 @@ class LoginActivity : AppCompatActivity() {
         super.onResume()
         val intentFilter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
         this@LoginActivity.registerReceiver(smsListener, intentFilter)
+    }
+
+    private fun OtpTextView.otpListener(otpListener: OTPListener) {
+        this.otpListener = otpListener
     }
 }

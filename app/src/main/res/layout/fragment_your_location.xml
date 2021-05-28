@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_main"
-        app:shapeAppearance="@style/RoundedCornerButton5dp">
+        app:shapeAppearance="@style/CornerSize5sdp">
 
         <TextView
             android:layout_width="match_parent"
@@ -136,7 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_location"
-        app:shapeAppearance="@style/RoundedCornerButton5dp" />
+        app:shapeAppearance="@style/CornerSize5sdp" />
 
     <LinearLayout
         android:id="@+id/ll_bottom"

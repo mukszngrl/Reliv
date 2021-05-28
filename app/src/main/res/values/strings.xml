@@ -84,6 +84,7 @@
     <string name="please_enter_city">Please enter city</string>
     <string name="please_enter_state">Please enter state</string>
     <string name="please_enter_zip_code">Please enter zip code</string>
+    <string name="logo">Logo</string>
 
     <string-array name="month_list">
         <item>Jan</item>

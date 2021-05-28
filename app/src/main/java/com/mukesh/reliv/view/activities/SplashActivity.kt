@@ -20,8 +20,6 @@ class SplashActivity : AppCompatActivity() {
         val splashBinding: ActivitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(splashBinding.root)
 
-        splashBinding.tvSplashTitle.text = getString(R.string.splash_title)
-6
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         else {
@@ -33,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         val splashAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_splash)
-        splashBinding.llSplashTitle.animation = splashAnimation
+        splashBinding.ivLogo.animation = splashAnimation
 
         splashAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {

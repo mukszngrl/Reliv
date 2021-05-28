@@ -55,18 +55,16 @@
         <item name="colorPrimary">@color/light_blue</item>
     </style>
 
-    <style name="CircularLeftRightOfButton">
-        <item name="cornerSizeTopLeft">@dimen/_15sdp</item>
-        <item name="cornerSizeTopRight">@dimen/_15sdp</item>
-        <item name="cornerSizeBottomLeft">@dimen/_15sdp</item>
-        <item name="cornerSizeBottomRight">@dimen/_15sdp</item>
+    <style name="CornerSize15sdp">
+        <item name="cornerSize">@dimen/_15sdp</item>
     </style>
 
-    <style name="RoundedCornerButton5dp">
-        <item name="cornerSizeTopLeft">@dimen/_5sdp</item>
-        <item name="cornerSizeTopRight">@dimen/_5sdp</item>
-        <item name="cornerSizeBottomLeft">@dimen/_5sdp</item>
-        <item name="cornerSizeBottomRight">@dimen/_5sdp</item>
+    <style name="CornerSize20sdp">
+        <item name="cornerSize">@dimen/_20sdp</item>
+    </style>
+
+    <style name="CornerSize5sdp">
+        <item name="cornerSize">@dimen/_5sdp</item>
     </style>
 
     <style name="NumberPickerTheme" parent="Theme.AppCompat.Light.NoActionBar">
