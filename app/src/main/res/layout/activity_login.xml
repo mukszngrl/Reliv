@@ -21,7 +21,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_height="@dimen/_70sdp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_35sdp"
                 android:contentDescription="@string/logo"

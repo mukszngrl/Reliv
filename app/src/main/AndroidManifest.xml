@@ -22,17 +22,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Reliv"
         tools:ignore="AllowBackup">
+        <activity android:name=".view.activities.ChatActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
         <activity
             android:name=".view.activities.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reliv.NoActionbar">
             <intent-filter>
@@ -44,7 +45,18 @@
         <activity
             android:name=".view.activities.HelpScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Reliv.NoActionbar" />
+            android:theme="@style/Theme.Reliv.NoActionbar">
+
+            <!-- android:exported="true" -->
+
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            -->
+        </activity>
         <activity
             android:name=".view.activities.LoginActivity"
             android:screenOrientation="portrait"
@@ -62,6 +74,24 @@
             android:name=".view.activities.PaymentActivity"
             android:label="Payment"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".services.firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/reliv_logo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary_color" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel_id" />
     </application>
 
 </manifest>

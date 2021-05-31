@@ -37,7 +37,7 @@ class HelpScreenActivity : AppCompatActivity() {
 
         mBinding.indicatorView.apply {
             setSliderColor(
-                resources.getColor(R.color.gray_light_color),
+                resources.getColor(R.color.gray_very_light_color),
                 resources.getColor(R.color.primary_dark_color)
             )
             setSliderWidth(resources.getDimension(R.dimen._10sdp))
@@ -71,7 +71,8 @@ class HelpScreenActivity : AppCompatActivity() {
         })
 
         mBinding.btnGetStarted.setOnClickListener {
-            startActivity(Intent(this@HelpScreenActivity, LoginActivity::class.java))
+//            startActivity(Intent(this@HelpScreenActivity, LoginActivity::class.java))
+            startActivity(Intent(this@HelpScreenActivity, ChatActivity::class.java))
             finish()
         }
     }

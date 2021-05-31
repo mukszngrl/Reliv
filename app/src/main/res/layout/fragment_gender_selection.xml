@@ -57,10 +57,10 @@
 
                 <ImageView
                     android:id="@+id/iv_male"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:src="@drawable/male"
                     app:layout_constraintBottom_toTopOf="@+id/tv_male"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -93,10 +93,10 @@
 
                 <ImageView
                     android:id="@+id/iv_female"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:src="@drawable/female"
                     app:layout_constraintBottom_toTopOf="@+id/tv_female"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -16,6 +16,7 @@ object Preferences {
     private var edit: SharedPreferences.Editor? = null
     const val USERNAME: String = "USERNAME"
     const val MOBILE_NO: String = "MOBILE_NO"
+    const val FCM_TOKEN: String = "FCM_TOKEN"
 
     fun init(application: Application) {
         preferences = application.getSharedPreferences(PREFS_FILENAME, 0)

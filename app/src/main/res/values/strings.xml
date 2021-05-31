@@ -72,8 +72,8 @@
     <string name="select_image_action">Select Image Action</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
-    <string name="please_cature_your_photo" />
-    <string name="ok">Ok</string>
+    <string name="please_capture_your_photo">Please capture your photo</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="alert">Alert</string>
     <string name="alert_message">Alert Message</string>
@@ -85,6 +85,7 @@
     <string name="please_enter_state">Please enter state</string>
     <string name="please_enter_zip_code">Please enter zip code</string>
     <string name="logo">Logo</string>
+    <string name="notification_channel_id">channel_1</string>
 
     <string-array name="month_list">
         <item>Jan</item>

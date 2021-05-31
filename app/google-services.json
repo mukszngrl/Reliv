@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "905846099541",
+    "project_id": "reliv-315005",
+    "storage_bucket": "reliv-315005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905846099541:android:360b40ebcaf39155adcedc",
+        "android_client_info": {
+          "package_name": "com.mukesh.reliv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905846099541-5hk23qqjr5v0h1rcream78sjbr09bees.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWhq-G8G_Eptod6WZbHNZOxf1c9F9XZx0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905846099541-5hk23qqjr5v0h1rcream78sjbr09bees.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

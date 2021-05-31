@@ -86,7 +86,7 @@ class TakePhotoFragment : Fragment() {
                 CustomAlertDialog.showDialog(
                     requireActivity(),
                     getString(R.string.alert),
-                    getString(R.string.please_cature_your_photo),
+                    getString(R.string.please_capture_your_photo),
                     getString(R.string.ok),
                     "",
                     "",
