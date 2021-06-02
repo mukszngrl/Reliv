@@ -21,8 +21,11 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Reliv"
-        tools:ignore="AllowBackup">
-        <activity android:name=".view.activities.ChatActivity"></activity>
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup"
+        tools:targetApi="m">
+        <activity android:name=".view.activities.DashboardActivity"/>
+        <activity android:name=".view.activities.ChatActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -45,18 +48,7 @@
         <activity
             android:name=".view.activities.HelpScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Reliv.NoActionbar">
-
-            <!-- android:exported="true" -->
-
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-            -->
-        </activity>
+            android:theme="@style/Theme.Reliv.NoActionbar"/>
         <activity
             android:name=".view.activities.LoginActivity"
             android:screenOrientation="portrait"
@@ -65,7 +57,7 @@
             android:name=".view.activities.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reliv.NoActionbar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".view.activities.MainActivity"
             android:label="Dashboard"

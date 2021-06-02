@@ -16,9 +16,9 @@ import android.provider.Settings
 import android.view.*
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,14 +34,19 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mukesh.reliv.R
+import com.mukesh.reliv.application.RelivApplication
 import com.mukesh.reliv.common.CustomAlertDialog
 import com.mukesh.reliv.common.LocationProvider
 import com.mukesh.reliv.common.LocationProvider.LocationCallback
 import com.mukesh.reliv.common.Preferences
 import com.mukesh.reliv.databinding.FragmentYourLocationBinding
+import com.mukesh.reliv.model.RegistrationRequestDO
 import com.mukesh.reliv.model.SignUpDO
+import com.mukesh.reliv.model.UserAddressDO
+import com.mukesh.reliv.model.UserDO
 import com.mukesh.reliv.view.activities.MainActivity
 import com.mukesh.reliv.view.activities.SignUpActivity
+import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import java.util.*
 
 
@@ -51,6 +56,13 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var lat: Double = 0.0
     private var lng: Double = 0.0
+    private lateinit var country: String
+    private lateinit var houseNo: String
+    private lateinit var street: String
+    private lateinit var city: String
+    private lateinit var state: String
+    private lateinit var zip: String
+    private lateinit var loginActivityViewModel: LoginActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +76,8 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
         }
 
         fragBinding = FragmentYourLocationBinding.inflate(layoutInflater)
+
+        loginActivityViewModel = ViewModelProvider(this).get(LoginActivityViewModel::class.java)
 
         val signUpDOTemp = arguments?.getSerializable("SignUpDO") as SignUpDO
 
@@ -112,11 +126,35 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
                     address = fragBinding.tvLocation.text.toString()
                 )
 
-                var hashMap: HashMap<String, SignUpDO>? = Preferences.getUserHashMap()
+                val addressDO = UserAddressDO(0, city, country, houseNo, state, street)
+                val userDO = UserDO(
+                    signUpDO.firstName, signUpDO.lastName, signUpDO.dateOfBirth, "",
+                    signUpDO.mobileNo, signUpDO.gender, signUpDO.height, signUpDO.weight
+                )
+                val registrationRequestDO = RegistrationRequestDO(addressDO, userDO)
+
+                loginActivityViewModel.signUp(registrationRequestDO)!!
+                    .observe(viewLifecycleOwner, { registrationResponse ->
+                        if (registrationResponse != null && registrationResponse.statusCode == 200) {
+                        } else {
+                            RelivApplication.mContext?.let { it1 ->
+                                CustomAlertDialog.showDialog(
+                                    it1, getString(R.string.alert),
+                                    getString(R.string.something_went_wrong),
+                                    getString(R.string.ok), "", "", true
+                                )
+                            }
+                        }
+                    })
+
+//                var hashMap: HashMap<String, SignUpDO>? = Preferences.getUserHashMap()
+                var hashMap =
+                    Preferences.getObjectFromPreference<HashMap<String, SignUpDO>>(Preferences.USER_HASH_MAP)
                 if (hashMap == null)
                     hashMap = HashMap()
                 hashMap[signUpDO.mobileNo] = signUpDO
-                Preferences.saveUserInHashMap(hashMap)
+//                Preferences.saveUserInHashMap(hashMap)
+                Preferences.saveObjectInPreference(Preferences.USER_HASH_MAP, hashMap)
 
                 val intent = Intent(activity, MainActivity::class.java)
                 intent.putExtra("SignUpDO", signUpDO)
@@ -191,6 +229,14 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
         return try {
             val geoCoder = Geocoder(requireActivity(), Locale.getDefault())
             val addresses: List<Address> = geoCoder.getFromLocation(latitude, longitude, 1)
+            if (addresses.isNotEmpty()) {
+                houseNo = addresses[0].featureName?.let { addresses[0].featureName } ?: ""
+                street = addresses[0].thoroughfare?.let { addresses[0].thoroughfare } ?: ""
+                city = addresses[0].locality?.let { addresses[0].locality } ?: ""
+                state = addresses[0].adminArea?.let { addresses[0].adminArea } ?: ""
+                zip = addresses[0].postalCode?.let { addresses[0].postalCode } ?: ""
+                country = addresses[0].countryName?.let { addresses[0].countryName } ?: ""
+            }
             addresses[0].getAddressLine(0)
         } catch (e: Exception) {
             e.printStackTrace()

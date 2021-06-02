@@ -13,11 +13,14 @@ import android.telephony.SmsMessage
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.mukesh.reliv.R
+import com.mukesh.reliv.common.CustomAlertDialog
 import com.mukesh.reliv.common.CustomLoader
 import com.mukesh.reliv.common.Preferences
 import com.mukesh.reliv.databinding.ActivityLoginBinding
 import com.mukesh.reliv.databinding.PopupOtpBinding
+import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import java.util.*
 
 
@@ -25,6 +28,9 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityLoginBinding
     private lateinit var otpBinding: PopupOtpBinding
+    private lateinit var loginActivityViewModel: LoginActivityViewModel
+    private lateinit var mobNo: String
+    private lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,8 @@ class LoginActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = resources.getColor(R.color.very_gray_light_color)
         }
+
+        loginActivityViewModel = ViewModelProvider(this).get(LoginActivityViewModel::class.java)
 
         if (mBinding.etUsername.text.toString() == "")
             mBinding.etUsername.requestFocus()
@@ -58,7 +66,21 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
                 else -> {
                     CustomLoader.showLoader(this)
-                    showOTPPopup()
+                    name = mBinding.etUsername.text.toString().trim()
+                    mobNo = mBinding.etMobNo.text.toString().trim()
+
+                    loginActivityViewModel.generateUserOTP(name, mobNo)!!
+                        .observe(this@LoginActivity, { generateOTPResponse ->
+                            if (generateOTPResponse != null && generateOTPResponse.statusCode == 200) {
+                                showOTPPopup()
+                            } else {
+                                CustomAlertDialog.showDialog(
+                                    this@LoginActivity, getString(R.string.alert),
+                                    getString(R.string.something_went_wrong),
+                                    getString(R.string.ok), "", "", true
+                                )
+                            }
+                        })
                 }
             }
         }
@@ -76,19 +98,42 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onOTPComplete(otp: String) {
-                if (otp == "1234") {
-                    mCustomOTPDialog.dismiss()
-                    val userHashMap = Preferences.getUserHashMap()
-                    if (userHashMap != null && userHashMap.containsKey(mBinding.etMobNo.text.toString())) {
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.putExtra("SignUpDO", userHashMap[mBinding.etMobNo.text.toString()])
-                        startActivity(intent)
-                    } else {
-                        val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-                        intent.putExtra("MobileNo", mBinding.etMobNo.text.toString())
-                        startActivity(intent)
-                    }
-                }
+                mCustomOTPDialog.dismiss()
+                loginActivityViewModel.validateUserOTP(mobNo, otp)!!
+                    .observe(this@LoginActivity, { otpValidationResponse ->
+                        if (otpValidationResponse != null && otpValidationResponse.statusCode == 200) {
+                            otpValidationResponse.Data.Token.let {
+                                Preferences.saveStringInPreference(
+                                    Preferences.GUID_TOKEN,
+                                    otpValidationResponse.Data.Token
+                                )
+                            }
+
+                            if (!otpValidationResponse.Data.IsRegisterUser) {
+                                val intent =
+                                    Intent(this@LoginActivity, SignUpActivity::class.java)
+                                intent.putExtra("MobileNo", mobNo)
+                                startActivity(intent)
+                            } else {
+                                loginActivityViewModel.getUserDetails()!!
+                                    .observe(this@LoginActivity, { userDetailsResponse ->
+                                        if (userDetailsResponse != null && userDetailsResponse.statusCode == 200) {
+                                            Preferences.saveObjectInPreference(
+                                                Preferences.USER_DETAILS_DO,
+                                                userDetailsResponse.Data
+                                            )
+                                            val intent =
+                                                Intent(
+                                                    this@LoginActivity,
+                                                    SignUpActivity::class.java
+                                                )
+                                            intent.putExtra("MobileNo", mobNo)
+                                            startActivity(intent)
+                                        }
+                                    })
+                            }
+                        }
+                    })
             }
         })
 

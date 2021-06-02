@@ -56,7 +56,7 @@ object MainActivityRepository {
                 Log.v("DEBUG : ", response.body().toString())
                 val data = response.body()
 
-                weatherGetterSetter.value = data
+                weatherGetterSetter.value = data!!
             }
         })
 
