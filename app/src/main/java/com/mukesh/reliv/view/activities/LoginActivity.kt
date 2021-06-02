@@ -13,6 +13,7 @@ import android.telephony.SmsMessage
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mukesh.reliv.R
 import com.mukesh.reliv.common.CustomAlertDialog
@@ -20,6 +21,7 @@ import com.mukesh.reliv.common.CustomLoader
 import com.mukesh.reliv.common.Preferences
 import com.mukesh.reliv.databinding.ActivityLoginBinding
 import com.mukesh.reliv.databinding.PopupOtpBinding
+import com.mukesh.reliv.retrofit.Status
 import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import java.util.*
 
@@ -69,16 +71,35 @@ class LoginActivity : AppCompatActivity() {
                     name = mBinding.etUsername.text.toString().trim()
                     mobNo = mBinding.etMobNo.text.toString().trim()
 
+                    Preferences.saveStringInPreference(Preferences.USER_ID, "")
+                    Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
+
                     loginActivityViewModel.generateUserOTP(name, mobNo)!!
-                        .observe(this@LoginActivity, { generateOTPResponse ->
-                            if (generateOTPResponse != null && generateOTPResponse.statusCode == 200) {
-                                showOTPPopup()
-                            } else {
-                                CustomAlertDialog.showDialog(
-                                    this@LoginActivity, getString(R.string.alert),
-                                    getString(R.string.something_went_wrong),
-                                    getString(R.string.ok), "", "", true
-                                )
+                        .observe(this@LoginActivity, { finalData ->
+                            when (finalData.status) {
+                                Status.SUCCESS -> {
+                                    CustomLoader.hideLoader()
+                                    if (finalData.data != null && finalData.data.statusCode == 200) {
+                                        showOTPPopup()
+                                    } else {
+                                        CustomAlertDialog.showDialog(
+                                            this@LoginActivity, getString(R.string.alert),
+                                            finalData.data?.statusMessage
+                                                ?: getString(R.string.something_went_wrong),
+                                            getString(R.string.ok), "", "", true
+                                        )
+                                    }
+                                }
+                                Status.ERROR -> {
+                                    CustomLoader.hideLoader()
+                                    CustomAlertDialog.showDialog(
+                                        this@LoginActivity, getString(R.string.alert),
+                                        finalData.message.toString(),
+                                        getString(R.string.ok), "", "", true
+                                    )
+                                }
+                                else ->
+                                    CustomLoader.hideLoader()
                             }
                         })
                 }
@@ -98,40 +119,79 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onOTPComplete(otp: String) {
-                mCustomOTPDialog.dismiss()
+                CustomLoader.showLoader(this@LoginActivity)
                 loginActivityViewModel.validateUserOTP(mobNo, otp)!!
-                    .observe(this@LoginActivity, { otpValidationResponse ->
-                        if (otpValidationResponse != null && otpValidationResponse.statusCode == 200) {
-                            otpValidationResponse.Data.Token.let {
-                                Preferences.saveStringInPreference(
-                                    Preferences.GUID_TOKEN,
-                                    otpValidationResponse.Data.Token
+                    .observe(this@LoginActivity, { finalData ->
+                        when (finalData.status) {
+                            Status.SUCCESS -> {
+                                CustomLoader.hideLoader()
+                                if (finalData.data != null && finalData.data.statusCode == 200) {
+                                    finalData.data.Data.Token.let {
+                                        Preferences.saveStringInPreference(
+                                            Preferences.GUID_TOKEN,
+                                            finalData.data.Data.Token
+                                        )
+                                    }
+                                    finalData.data.Data.Token.let {
+                                        Preferences.saveStringInPreference(
+                                            Preferences.USER_ID,
+                                            finalData.data.Data.UserId
+                                        )
+                                    }
+
+                                    if (!finalData.data.Data.IsRegisterUser) {
+                                        val intent =
+                                            Intent(this@LoginActivity, SignUpActivity::class.java)
+                                        intent.putExtra("MobileNo", mobNo)
+                                        startActivity(intent)
+                                    } else {
+                                        loginActivityViewModel.getUserDetails()!!
+                                            .observe(this@LoginActivity, { finalResult ->
+                                                when (finalResult.status) {
+                                                    Status.SUCCESS -> {
+                                                        if (finalResult.data != null && finalResult.data.statusCode == 200) {
+                                                            Preferences.saveObjectInPreference(
+                                                                Preferences.USER_DETAILS_DO,
+                                                                finalResult.data.Data
+                                                            )
+                                                            val intent =
+                                                                Intent(
+                                                                    this@LoginActivity,
+                                                                    SignUpActivity::class.java
+                                                                )
+                                                            intent.putExtra("MobileNo", mobNo)
+                                                            startActivity(intent)
+                                                        }
+                                                    }
+                                                    Status.ERROR -> {
+                                                        CustomLoader.hideLoader()
+                                                        CustomAlertDialog.showDialog(
+                                                            this@LoginActivity,
+                                                            getString(R.string.alert),
+                                                            finalData.message.toString(),
+                                                            getString(R.string.ok),
+                                                            "",
+                                                            "",
+                                                            true
+                                                        )
+                                                    }
+                                                    else ->
+                                                        CustomLoader.hideLoader()
+                                                }
+                                            })
+                                    }
+                                }
+                            }
+                            Status.ERROR -> {
+                                CustomLoader.hideLoader()
+                                CustomAlertDialog.showDialog(
+                                    this@LoginActivity, getString(R.string.alert),
+                                    finalData.message.toString(),
+                                    getString(R.string.ok), "", "", true
                                 )
                             }
-
-                            if (!otpValidationResponse.Data.IsRegisterUser) {
-                                val intent =
-                                    Intent(this@LoginActivity, SignUpActivity::class.java)
-                                intent.putExtra("MobileNo", mobNo)
-                                startActivity(intent)
-                            } else {
-                                loginActivityViewModel.getUserDetails()!!
-                                    .observe(this@LoginActivity, { userDetailsResponse ->
-                                        if (userDetailsResponse != null && userDetailsResponse.statusCode == 200) {
-                                            Preferences.saveObjectInPreference(
-                                                Preferences.USER_DETAILS_DO,
-                                                userDetailsResponse.Data
-                                            )
-                                            val intent =
-                                                Intent(
-                                                    this@LoginActivity,
-                                                    SignUpActivity::class.java
-                                                )
-                                            intent.putExtra("MobileNo", mobNo)
-                                            startActivity(intent)
-                                        }
-                                    })
-                            }
+                            else ->
+                                CustomLoader.hideLoader()
                         }
                     })
             }
@@ -149,7 +209,7 @@ class LoginActivity : AppCompatActivity() {
             if (intent.action == "android.provider.Telephony.SMS_RECEIVED") {
                 val bundle = intent.extras // ---get the SMS message
                 // passed in---
-                var msgs: Array<SmsMessage?>? = null
+                val msgs: Array<SmsMessage?>
                 // String msg_from;
                 if (bundle != null) {
                     // ---retrieve the SMS message received---

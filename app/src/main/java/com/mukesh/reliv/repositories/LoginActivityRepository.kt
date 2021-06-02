@@ -7,18 +7,22 @@ import com.mukesh.reliv.model.GenerateOTPResponseDO
 import com.mukesh.reliv.model.RegistrationRequestDO
 import com.mukesh.reliv.model.UserDetailsResponse
 import com.mukesh.reliv.model.ValidateOTPResponseDO
+import com.mukesh.reliv.retrofit.Resource
 import com.mukesh.reliv.retrofit.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object LoginActivityRepository{
+object LoginActivityRepository {
 
-    private val generateOTPResponse = MutableLiveData<GenerateOTPResponseDO>()
-    private val validateOTPResponse = MutableLiveData<ValidateOTPResponseDO>()
-    private val userDetailsResponse = MutableLiveData<UserDetailsResponse>()
+    private val generateOTPResponse = MutableLiveData<Resource<GenerateOTPResponseDO>>()
+    private val validateOTPResponse = MutableLiveData<Resource<ValidateOTPResponseDO>>()
+    private val userDetailsResponse = MutableLiveData<Resource<UserDetailsResponse>>()
 
-    fun generateUserOTP(name: String, mobNo: String): MutableLiveData<GenerateOTPResponseDO> {
+    fun generateUserOTP(
+        name: String,
+        mobNo: String
+    ): MutableLiveData<Resource<GenerateOTPResponseDO>> {
 
         val call = RetrofitClient.apiInterface.generateUserOTP(name = name, mobileNo = mobNo)
 
@@ -35,16 +39,19 @@ object LoginActivityRepository{
                 Log.v("DEBUG : ", response.body().toString())
 
                 val data = response.body()
-                if (data != null) {
-                    generateOTPResponse.value = data
-                }
+                if (data != null)
+                    generateOTPResponse.value = Resource.success(data)
+                else
+                    generateOTPResponse.value =
+                        Resource.error(response.errorBody()?.string() ?: "Server Error", data)
             }
         })
 
         return generateOTPResponse
     }
 
-    fun validateUserOTP(mobNo: String, otp: String): MutableLiveData<ValidateOTPResponseDO>? {
+    fun validateUserOTP(mobNo: String, otp: String)
+            : MutableLiveData<Resource<ValidateOTPResponseDO>> {
         val call = RetrofitClient.apiInterface.validateUserOTP(mobileNo = mobNo, otp = otp)
 
         call.enqueue(object : Callback<ValidateOTPResponseDO> {
@@ -61,17 +68,19 @@ object LoginActivityRepository{
 
                 val data = response.body()
 
-                if (data != null) {
-                    validateOTPResponse.value = data
-                }
+                if (data != null)
+                    validateOTPResponse.value = Resource.success(data)
+                else
+                    validateOTPResponse.value =
+                        Resource.error(response.errorBody()?.string() ?: "Server Error", data)
             }
         })
 
         return validateOTPResponse
     }
 
-    fun getUserDetails(): MutableLiveData<UserDetailsResponse> {
-        val call = RetrofitClient.apiInterfaceMesibo.getUserDetails()
+    fun getUserDetails(): MutableLiveData<Resource<UserDetailsResponse>> {
+        val call = RetrofitClient.apiInterface.getUserDetails()
 
         call.enqueue(object : Callback<UserDetailsResponse> {
             override fun onFailure(call: Call<UserDetailsResponse>, t: Throwable) {
@@ -87,17 +96,19 @@ object LoginActivityRepository{
 
                 val data = response.body()
 
-                if (data != null) {
-                    userDetailsResponse.value = data
-                }
+                if (data != null)
+                    userDetailsResponse.value = Resource.success(data)
+                else
+                    userDetailsResponse.value =
+                        Resource.error(response.errorBody()?.string() ?: "Server Error", data)
             }
         })
 
         return userDetailsResponse
     }
 
-    fun signUp(signUpDO: RegistrationRequestDO): MutableLiveData<UserDetailsResponse>? {
-        val call = RetrofitClient.apiInterface.signUp(RetrofitClient.getHeaders(),signUpDO)
+    fun signUp(signUpDO: RegistrationRequestDO): MutableLiveData<Resource<UserDetailsResponse>> {
+        val call = RetrofitClient.apiInterface.signUp(RetrofitClient.getHeaders(), signUpDO)
 
         call.enqueue(object : Callback<UserDetailsResponse> {
             override fun onFailure(call: Call<UserDetailsResponse>, t: Throwable) {
@@ -114,7 +125,10 @@ object LoginActivityRepository{
                 val data = response.body()
 
                 if (data != null) {
-                    userDetailsResponse.value = data
+                    userDetailsResponse.value = Resource.success(data)
+                } else {
+                    userDetailsResponse.value =
+                        Resource.error(response.errorBody()?.string() ?: "Server Error", data)
                 }
             }
         })

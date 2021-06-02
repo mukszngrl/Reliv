@@ -25,8 +25,8 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mukesh.reliv.R
-import com.mukesh.reliv.application.RelivApplication
 import com.mukesh.reliv.common.CustomAlertDialog
+import com.mukesh.reliv.common.CustomLoader
 import com.mukesh.reliv.common.LocationProvider
 import com.mukesh.reliv.common.Preferences
 import com.mukesh.reliv.databinding.FragmentChangeLocationBinding
@@ -34,6 +34,7 @@ import com.mukesh.reliv.model.RegistrationRequestDO
 import com.mukesh.reliv.model.SignUpDO
 import com.mukesh.reliv.model.UserAddressDO
 import com.mukesh.reliv.model.UserDO
+import com.mukesh.reliv.retrofit.Status
 import com.mukesh.reliv.view.activities.MainActivity
 import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import java.util.*
@@ -129,45 +130,57 @@ class ChangeLocationFragment : Fragment(), OnMapReadyCallback {
                     )
 
                     val addressDO = UserAddressDO(
-                        0,
-                        fragBinding.etCity.text.toString(),
-                        country,
-                        fragBinding.etHouse.text.toString(),
-                        fragBinding.etState.text.toString(),
+                        0, fragBinding.etCity.text.toString(), country,
+                        fragBinding.etHouse.text.toString(), fragBinding.etState.text.toString(),
                         fragBinding.etStreet.text.toString()
                     )
                     val userDO = UserDO(
-                        signUpDO.firstName, signUpDO.lastName, signUpDO.dateOfBirth, "",
-                        signUpDO.mobileNo, signUpDO.gender, signUpDO.height, signUpDO.weight
+                        signUpDO.firstName, signUpDO.lastName, signUpDO.profileImagePath,
+                        signUpDO.dateOfBirth, "", signUpDO.mobileNo, signUpDO.gender,
+                        signUpDO.height, signUpDO.weight
                     )
                     val registrationRequestDO = RegistrationRequestDO(addressDO, userDO)
 
                     loginActivityViewModel.signUp(registrationRequestDO)!!
-                        .observe(viewLifecycleOwner, { registrationResponse ->
-                            if (registrationResponse != null && registrationResponse.statusCode == 200) {
-                            } else {
-                                RelivApplication.mContext?.let { it1 ->
+                        .observe(viewLifecycleOwner, { finalResult ->
+                            when (finalResult.status) {
+                                Status.SUCCESS -> {
+                                    if (finalResult.data != null && finalResult.data.statusCode == 200) {
+                                        var hashMap =
+                                            Preferences.getObjectFromPreference<HashMap<String, SignUpDO>>(Preferences.USER_HASH_MAP)
+                                        if (hashMap == null)
+                                            hashMap = HashMap()
+                                        hashMap[signUpDO.mobileNo] = signUpDO
+                                        Preferences.saveObjectInPreference(Preferences.USER_HASH_MAP, hashMap)
+
+                                        val intent = Intent(activity, MainActivity::class.java)
+                                        intent.putExtra("SignUpDO", signUpDO)
+                                        startActivity(intent)
+                                        activity?.finish()
+                                    } else {
+                                        CustomAlertDialog.showDialog(
+                                            requireActivity(), getString(R.string.alert),
+                                            getString(R.string.something_went_wrong),
+                                            getString(R.string.ok), "", "", true
+                                        )
+                                    }
+                                }
+                                Status.ERROR -> {
+                                    CustomLoader.hideLoader()
                                     CustomAlertDialog.showDialog(
-                                        it1, getString(R.string.alert),
-                                        getString(R.string.something_went_wrong),
-                                        getString(R.string.ok), "", "", true
+                                        requireActivity(),
+                                        getString(R.string.alert),
+                                        finalResult.message.toString(),
+                                        getString(R.string.ok),
+                                        "",
+                                        "",
+                                        true
                                     )
                                 }
+                                else ->
+                                    CustomLoader.hideLoader()
                             }
                         })
-
-                    var hashMap =
-                        Preferences.getObjectFromPreference<HashMap<String, SignUpDO>>(Preferences.USER_HASH_MAP)
-                    if (hashMap == null)
-                        hashMap = HashMap()
-                    hashMap[signUpDO.mobileNo] = signUpDO
-//                    Preferences.saveUserInHashMap(hashMap)
-                    Preferences.saveObjectInPreference(Preferences.USER_HASH_MAP, hashMap)
-
-                    val intent = Intent(activity, MainActivity::class.java)
-                    intent.putExtra("SignUpDO", signUpDO)
-                    startActivity(intent)
-                    activity?.finish()
                 }
             }
         }

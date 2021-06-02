@@ -3,6 +3,7 @@ package com.mukesh.reliv.model
 data class UserDO(
     val Pd_First_Name: String,
     val Pd_Last_Name: String,
+    val Pd_Photo: String,
     val Pd_Date_Of_Birth: String,
     val Pd_Email: String,
     val Pd_Mobile_Number: String,
