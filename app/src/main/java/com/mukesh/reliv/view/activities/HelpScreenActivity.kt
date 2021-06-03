@@ -71,8 +71,8 @@ class HelpScreenActivity : AppCompatActivity() {
         })
 
         mBinding.btnGetStarted.setOnClickListener {
-            startActivity(Intent(this@HelpScreenActivity, LoginActivity::class.java))
-//            startActivity(Intent(this@HelpScreenActivity, ChatActivity::class.java))
+//            startActivity(Intent(this@HelpScreenActivity, LoginActivity::class.java))
+            startActivity(Intent(this@HelpScreenActivity, ChatActivity::class.java))
             finish()
         }
     }

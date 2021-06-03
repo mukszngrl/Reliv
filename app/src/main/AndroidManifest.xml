@@ -24,7 +24,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
-        <activity android:name=".view.activities.DashboardActivity"/>
+        <activity android:name=".view.activities.MessageViewActivity"/>
+        <activity android:name=".view.activities.DashboardActivity" />
         <activity android:name=".view.activities.ChatActivity" />
 
         <meta-data
@@ -48,7 +49,7 @@
         <activity
             android:name=".view.activities.HelpScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Reliv.NoActionbar"/>
+            android:theme="@style/Theme.Reliv.NoActionbar" />
         <activity
             android:name=".view.activities.LoginActivity"
             android:screenOrientation="portrait"

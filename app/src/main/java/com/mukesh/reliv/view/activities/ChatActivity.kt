@@ -1,12 +1,11 @@
 package com.mukesh.reliv.view.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mesibo.api.Mesibo
 import com.mesibo.api.Mesibo.MessageParams
-import com.mesibo.calls.api.MesiboCall
 import com.mesibo.messaging.MesiboUI
 import com.mukesh.reliv.databinding.ActivityChatBinding
 import java.util.*
@@ -24,52 +23,56 @@ class ChatActivity : AppCompatActivity(), Mesibo.MessageListener, Mesibo.Connect
 
         Mesibo.addListener(this)
         Mesibo.setSecureConnection(true)
-        Mesibo.setAccessToken("a4c5c9258266565818b72989e0814db8693a32eaa60547ebb32e4b0")
+        Mesibo.setAccessToken("ccbf0f8b457746734ca06c9af036e3ddc50a239d17123ce6632ec8b")
         Mesibo.setDatabase("mydb", 0)
         Mesibo.start()
 
         mBinding.btnSend.setOnClickListener {
-            MesiboUI.launch(this@ChatActivity, 0, false, true)
-            onLaunchMessagingUi(it);
+//            MesiboUI.launch(this@ChatActivity, 0, false, true)
+            onLaunchMessagingUi()
         }
     }
 
-    private fun onLaunchMessagingUi(view: View?) {
-        val mMesiboUIOptions: MesiboUI.Config = MesiboUI.getConfig()
-        mMesiboUIOptions.userListTitle = "Vipin"
-        MesiboUI.launchMessageView(this, "9405986565", 0)
+    private fun onLaunchMessagingUi() {
+        val mProfile = Mesibo.UserProfile()
+        mProfile.address = "7569858421"
+        mProfile.name = "Vipin"
+        Mesibo.setUserProfile(mProfile, false)
+        MesiboUI.launchMessageView(this, mProfile.address, 0)
+
+        /*val intent = Intent(this, MessageViewActivity::class.java)
+        intent.putExtra("address", "7569858421")
+        intent.putExtra("name", "Vipin")
+        startActivity(intent)*/
     }
 
     override fun Mesibo_onMessage(p0: MessageParams?, p1: ByteArray?): Boolean {
         val msg = p1?.let { String(it) }
-        MesiboUI.launchMessageView(this, p0?.profile?.address, 0)
-//        MesiboCall.getInstance().init(applicationContext)
-//        MesiboCall.getInstance().callUi(this, p0?.profile?.address, true)
         return true
     }
 
     override fun Mesibo_onMessageStatus(p0: MessageParams?) {
-        Toast.makeText(
+        /*Toast.makeText(
             this@ChatActivity,
             "Mesibo_onMessageStatus ${p0?.status}",
             Toast.LENGTH_SHORT
-        ).show()
+        ).show()*/
     }
 
     override fun Mesibo_onActivity(p0: MessageParams?, p1: Int) {
-        Toast.makeText(
+        /*Toast.makeText(
             this@ChatActivity,
             "Mesibo_onActivity ${p0?.status}",
             Toast.LENGTH_SHORT
-        ).show()
+        ).show()*/
     }
 
     override fun Mesibo_onLocation(p0: MessageParams?, p1: Mesibo.Location?) {
-        Toast.makeText(
+        /*Toast.makeText(
             this@ChatActivity,
             "Mesibo_onLocation ${p0?.status}",
             Toast.LENGTH_SHORT
-        ).show()
+        ).show()*/
     }
 
     override fun Mesibo_onFile(p0: MessageParams?, p1: Mesibo.FileInfo?) {

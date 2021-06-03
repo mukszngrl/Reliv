@@ -13,7 +13,6 @@ import android.telephony.SmsMessage
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mukesh.reliv.R
 import com.mukesh.reliv.common.CustomAlertDialog
@@ -74,7 +73,8 @@ class LoginActivity : AppCompatActivity() {
                     Preferences.saveStringInPreference(Preferences.USER_ID, "")
                     Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
 
-                    loginActivityViewModel.generateUserOTP(name, mobNo)!!
+                    showOTPPopup()
+                    /*loginActivityViewModel.generateUserOTP(name, mobNo)
                         .observe(this@LoginActivity, { finalData ->
                             when (finalData.status) {
                                 Status.SUCCESS -> {
@@ -101,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
                                 else ->
                                     CustomLoader.hideLoader()
                             }
-                        })
+                        })*/
                 }
             }
         }
@@ -120,11 +120,16 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onOTPComplete(otp: String) {
                 CustomLoader.showLoader(this@LoginActivity)
-                loginActivityViewModel.validateUserOTP(mobNo, otp)!!
+                val intent =
+                    Intent(this@LoginActivity, SignUpActivity::class.java)
+                intent.putExtra("MobileNo", mobNo)
+                startActivity(intent)
+                /*loginActivityViewModel.validateUserOTP(mobNo, otp)
                     .observe(this@LoginActivity, { finalData ->
                         when (finalData.status) {
                             Status.SUCCESS -> {
                                 CustomLoader.hideLoader()
+                                mCustomOTPDialog.dismiss()
                                 if (finalData.data != null && finalData.data.statusCode == 200) {
                                     finalData.data.Data.Token.let {
                                         Preferences.saveStringInPreference(
@@ -145,7 +150,7 @@ class LoginActivity : AppCompatActivity() {
                                         intent.putExtra("MobileNo", mobNo)
                                         startActivity(intent)
                                     } else {
-                                        loginActivityViewModel.getUserDetails()!!
+                                        loginActivityViewModel.getUserDetails()
                                             .observe(this@LoginActivity, { finalResult ->
                                                 when (finalResult.status) {
                                                     Status.SUCCESS -> {
@@ -193,7 +198,7 @@ class LoginActivity : AppCompatActivity() {
                             else ->
                                 CustomLoader.hideLoader()
                         }
-                    })
+                    })*/
             }
         })
 

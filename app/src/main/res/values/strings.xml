@@ -92,6 +92,8 @@
     <string name="server_error">Server Error</string>
     <string name="Something_went_wrong">Something went wrong, please try again later.</string>
     <string name="something_went_wrong">Something went wrong...!!!</string>
+    <string name="video_call">Video Call</string>
+    <string name="voice_call">Voice Call</string>
 
     <string-array name="month_list">
         <item>Jan</item>
