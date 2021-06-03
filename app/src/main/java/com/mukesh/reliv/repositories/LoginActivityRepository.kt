@@ -2,7 +2,7 @@ package com.mukesh.reliv.repositories
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.mukesh.reliv.model.GenerateOTPResponseDO
 import com.mukesh.reliv.model.RegistrationRequestDO
 import com.mukesh.reliv.model.UserDetailsResponse
@@ -29,6 +29,8 @@ object LoginActivityRepository {
         call.enqueue(object : Callback<GenerateOTPResponseDO> {
             override fun onFailure(call: Call<GenerateOTPResponseDO>, t: Throwable) {
                 Log.v("DEBUG : ", t.message.toString())
+                generateOTPResponse.value =
+                    Resource.error(t.message.toString(), null)
             }
 
             @SuppressLint("NullSafeMutableLiveData")
@@ -57,6 +59,8 @@ object LoginActivityRepository {
         call.enqueue(object : Callback<ValidateOTPResponseDO> {
             override fun onFailure(call: Call<ValidateOTPResponseDO>, t: Throwable) {
                 Log.v("DEBUG : ", t.message.toString())
+                validateOTPResponse.value =
+                    Resource.error(t.message.toString(), null)
             }
 
             @SuppressLint("NullSafeMutableLiveData")
@@ -85,6 +89,8 @@ object LoginActivityRepository {
         call.enqueue(object : Callback<UserDetailsResponse> {
             override fun onFailure(call: Call<UserDetailsResponse>, t: Throwable) {
                 Log.v("DEBUG : ", t.message.toString())
+                userDetailsResponse.value =
+                    Resource.error(t.message.toString(), null)
             }
 
             @SuppressLint("NullSafeMutableLiveData")
@@ -113,6 +119,8 @@ object LoginActivityRepository {
         call.enqueue(object : Callback<UserDetailsResponse> {
             override fun onFailure(call: Call<UserDetailsResponse>, t: Throwable) {
                 Log.v("DEBUG : ", t.message.toString())
+                userDetailsResponse.value =
+                    Resource.error(t.message.toString(), null)
             }
 
             @SuppressLint("NullSafeMutableLiveData")
