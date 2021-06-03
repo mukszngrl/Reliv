@@ -57,7 +57,7 @@
             android:name=".view.activities.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reliv.NoActionbar"
-            android:windowSoftInputMode="adjustResize|adjustPan" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activities.MainActivity"
             android:label="Dashboard"
