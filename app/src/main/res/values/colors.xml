@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="black_opaque">#80000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dashboard_purple">#473E97</color>
 
     <color name="primary_color">#0c72c6</color>
     <color name="primary_dark_color">#004795</color>
@@ -29,5 +30,6 @@
     <color name="dark_blue">#166496</color>
     <color name="light_blue">#43C1CC</color>
     <color name="light_green">#7BC145</color>
+    <color name="green">#73C233</color>
     <color name="dark_green">#49900f</color>
 </resources>

@@ -35,6 +35,8 @@ class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.Fragmen
             .commit()
 
         setTitleBar()
+
+        MesiboCall.getInstance().init(applicationContext)
     }
 
     private fun setTitleBar() {

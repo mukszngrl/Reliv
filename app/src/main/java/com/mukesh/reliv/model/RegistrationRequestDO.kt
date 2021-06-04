@@ -2,5 +2,5 @@ package com.mukesh.reliv.model
 
 data class RegistrationRequestDO(
     val Address: UserAddressDO,
-    val UserInfo: UserDO
+    val UserInfo: UserRequestDO
 )

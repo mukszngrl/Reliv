@@ -1,6 +1,5 @@
 package com.mukesh.reliv.view.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -70,7 +69,7 @@ class ChatActivity : AppCompatActivity(), Mesibo.MessageListener, Mesibo.Connect
     override fun Mesibo_onLocation(p0: MessageParams?, p1: Mesibo.Location?) {
         /*Toast.makeText(
             this@ChatActivity,
-            "Mesibo_onLocation ${p0?.status}",
+            "Mesibo_onLocation ${p0?.status}",lk,
             Toast.LENGTH_SHORT
         ).show()*/
     }

@@ -7,6 +7,8 @@ import com.google.gson.Gson
 
 @SuppressLint("CommitPrefEdits")
 object Preferences {
+    const val DOCTOR_OBJECT: String = "DOCTOR_OBJECT"
+    const val IS_PAYMENT_DONE: String = "IS_PAYMENT_DONE"
     const val USER_DETAILS_DO: String = "USER_DETAILS_DO"
     const val USER_TYPE: String = "USER_TYPE"
     const val USER_ID: String = "USER_ID"
@@ -20,6 +22,7 @@ object Preferences {
     const val MOBILE_NO: String = "MOBILE_NO"
     const val FCM_TOKEN: String = "FCM_TOKEN"
     const val USER_HASH_MAP: String = "USER_HASH_MAP"
+    const val IS_LOGGED_IN: String = "IS_LOGGED_IN"
 
     fun init(application: Application) {
         preferences = application.getSharedPreferences(PREFS_FILENAME, 0)
@@ -37,6 +40,16 @@ object Preferences {
         return preferences?.let { preferences?.getString(strKey, defaultValue) }
     }
 
+    fun saveBooleanInPreference(strKey: String, strValue: Boolean) {
+        edit?.let {
+            edit?.putBoolean(strKey, strValue)
+            applyPreference()
+        }
+    }
+
+    fun getBooleanFromPreference(strKey: String?, defaultValue: Boolean): Boolean? {
+        return preferences?.let { preferences?.getBoolean(strKey, defaultValue) }
+    }
     /*fun saveUserInHashMap(myMap: HashMap<String, SignUpDO>) {
         edit?.let {
             val converted = Gson().toJson(myMap)

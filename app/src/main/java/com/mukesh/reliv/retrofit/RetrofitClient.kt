@@ -2,7 +2,6 @@ package com.mukesh.reliv.retrofit
 
 import com.mukesh.reliv.BuildConfig
 import com.mukesh.reliv.common.Preferences
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
@@ -11,9 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val MainServer = "http://91cc9f0db343.ngrok.io/ReliveApp/api/Relive/"
-    private const val ImageUploadURL = "http://91cc9f0db343.ngrok.io/ReliveApp/UploadImage.aspx"
-    private const val MesiboSever = "https://api.mesibo.com"
+    private const val MAIN_SERVER = "http://2b338487e3ab.ngrok.io"
+    private const val MAIN_URL = "$MAIN_SERVER/ReliveApp/api/Relive/"
+    private const val ImageUploadURL = "$MAIN_SERVER/ReliveApp/UploadImage.aspx"
+    private const val MESIBO_SERVER = "https://api.mesibo.com"
 
     private val retrofitClient: Retrofit.Builder by lazy {
 
@@ -27,7 +27,7 @@ object RetrofitClient {
         okHttpClient.addInterceptor(logging)
 
         Retrofit.Builder()
-            .baseUrl(MainServer)
+            .baseUrl(MAIN_URL)
             .client(okHttpClient.build())
             .addConverterFactory(GsonConverterFactory.create())
     }
@@ -50,7 +50,7 @@ object RetrofitClient {
         okHttpClient.addInterceptor(logging)
 
         Retrofit.Builder()
-            .baseUrl(MesiboSever)
+            .baseUrl(MESIBO_SERVER)
             .client(okHttpClient.build())
             .addConverterFactory(GsonConverterFactory.create())
     }

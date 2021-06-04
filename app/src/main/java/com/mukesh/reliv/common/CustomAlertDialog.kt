@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mukesh.reliv.R
+import com.mukesh.reliv.view.activities.PackageSelectionActivity
 import java.util.*
 
 object CustomAlertDialog {
@@ -51,7 +52,13 @@ object CustomAlertDialog {
         tvTitle.text = strTitle
         tvMessage.text = strMessage
 
-        btnPositive.setOnClickListener { dialog.dismiss() }
+        btnPositive.setOnClickListener {
+            if (from.equals("payment_success", ignoreCase = true)) {
+                if (context is PackageSelectionActivity)
+                    context.finish()
+            }
+            dialog.dismiss()
+        }
 
         btnNegative.setOnClickListener { dialog.dismiss() }
 

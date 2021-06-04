@@ -94,6 +94,13 @@
     <string name="something_went_wrong">Something went wrong...!!!</string>
     <string name="video_call">Video Call</string>
     <string name="voice_call">Voice Call</string>
+    <string name="what_service_you_need">What Service You Need?</string>
+    <string name="doctor_slot_not_booked_yet">Doctor slot not booked yet</string>
+    <string name="success">Success</string>
+    <string name="payment_success">"Payment successfully completed. "</string>
+    <string name="failure">Failure</string>
+    <string name="payment_failure">Payment failure, please try again.</string>
+    <string name="packages">Packages</string>
 
     <string-array name="month_list">
         <item>Jan</item>

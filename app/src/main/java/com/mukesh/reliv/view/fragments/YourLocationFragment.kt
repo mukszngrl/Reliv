@@ -14,7 +14,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.*
-import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -43,14 +42,15 @@ import com.mukesh.reliv.databinding.FragmentYourLocationBinding
 import com.mukesh.reliv.model.RegistrationRequestDO
 import com.mukesh.reliv.model.SignUpDO
 import com.mukesh.reliv.model.UserAddressDO
-import com.mukesh.reliv.model.UserDO
+import com.mukesh.reliv.model.UserRequestDO
 import com.mukesh.reliv.retrofit.Status
-import com.mukesh.reliv.view.activities.MainActivity
+import com.mukesh.reliv.view.activities.DashboardActivity
 import com.mukesh.reliv.view.activities.SignUpActivity
 import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import java.util.*
 
 
+@Suppress("SameParameterValue")
 class YourLocationFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var fragBinding: FragmentYourLocationBinding
@@ -127,35 +127,37 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
                     address = fragBinding.tvLocation.text.toString()
                 )
 
-                val addressDO = UserAddressDO(0, city, country, houseNo, state, street)
-                val userDO = UserDO(
+                val addressDO = UserAddressDO(
+                    Preferences.getStringFromPreference(Preferences.USER_ID, "0") ?: "0",
+                    city, country, houseNo, state, street
+                )
+                val userDO = UserRequestDO(
                     signUpDO.firstName, signUpDO.lastName, signUpDO.profileImagePath,
                     signUpDO.dateOfBirth, "", signUpDO.mobileNo, signUpDO.gender,
                     signUpDO.height, signUpDO.weight
                 )
                 val registrationRequestDO = RegistrationRequestDO(addressDO, userDO)
 
-                loginActivityViewModel.signUp(registrationRequestDO)!!
+                loginActivityViewModel.signUp(registrationRequestDO)
                     .observe(viewLifecycleOwner, { finalResult ->
                         when (finalResult.status) {
                             Status.SUCCESS -> {
                                 if (finalResult.data != null && finalResult.data.statusCode == 200) {
-                                    var hashMap =
-                                        Preferences.getObjectFromPreference<HashMap<String, SignUpDO>>(
-                                            Preferences.USER_HASH_MAP
-                                        )
-                                    if (hashMap == null)
-                                        hashMap = HashMap()
-                                    hashMap[signUpDO.mobileNo] = signUpDO
+
                                     Preferences.saveObjectInPreference(
-                                        Preferences.USER_HASH_MAP,
-                                        hashMap
+                                        Preferences.USER_DETAILS_DO,
+                                        finalResult.data.Data
                                     )
 
-                                    val intent = Intent(activity, MainActivity::class.java)
-                                    intent.putExtra("SignUpDO", signUpDO)
+                                    val intent = Intent(activity, DashboardActivity::class.java)
                                     startActivity(intent)
                                     activity?.finish()
+                                } else if (finalResult.data != null) {
+                                    CustomAlertDialog.showDialog(
+                                        requireActivity(), getString(R.string.alert),
+                                        finalResult.data.statusMessage,
+                                        getString(R.string.ok), "", "", true
+                                    )
                                 } else {
                                     CustomAlertDialog.showDialog(
                                         requireActivity(), getString(R.string.alert),
@@ -287,7 +289,7 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
 
     private fun bitmapDescriptorFromVector(
         context: Context,
-        @DrawableRes vectorDrawableResourceId: Int
+        vectorDrawableResourceId: Int
     ): BitmapDescriptor? {
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
         vectorDrawable!!.setBounds(

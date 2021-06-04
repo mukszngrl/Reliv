@@ -33,12 +33,11 @@ import com.mukesh.reliv.databinding.FragmentChangeLocationBinding
 import com.mukesh.reliv.model.RegistrationRequestDO
 import com.mukesh.reliv.model.SignUpDO
 import com.mukesh.reliv.model.UserAddressDO
-import com.mukesh.reliv.model.UserDO
+import com.mukesh.reliv.model.UserRequestDO
 import com.mukesh.reliv.retrofit.Status
-import com.mukesh.reliv.view.activities.MainActivity
+import com.mukesh.reliv.view.activities.DashboardActivity
 import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import java.util.*
-import kotlin.collections.HashMap
 
 class ChangeLocationFragment : Fragment(), OnMapReadyCallback {
 
@@ -130,33 +129,38 @@ class ChangeLocationFragment : Fragment(), OnMapReadyCallback {
                     )
 
                     val addressDO = UserAddressDO(
-                        0, fragBinding.etCity.text.toString(), country,
+                        Preferences.getStringFromPreference(Preferences.USER_ID, "0") ?: "0",
+                        fragBinding.etCity.text.toString(), country,
                         fragBinding.etHouse.text.toString(), fragBinding.etState.text.toString(),
                         fragBinding.etStreet.text.toString()
                     )
-                    val userDO = UserDO(
+                    val userDO = UserRequestDO(
                         signUpDO.firstName, signUpDO.lastName, signUpDO.profileImagePath,
                         signUpDO.dateOfBirth, "", signUpDO.mobileNo, signUpDO.gender,
                         signUpDO.height, signUpDO.weight
                     )
                     val registrationRequestDO = RegistrationRequestDO(addressDO, userDO)
 
-                    loginActivityViewModel.signUp(registrationRequestDO)!!
+                    loginActivityViewModel.signUp(registrationRequestDO)
                         .observe(viewLifecycleOwner, { finalResult ->
                             when (finalResult.status) {
                                 Status.SUCCESS -> {
                                     if (finalResult.data != null && finalResult.data.statusCode == 200) {
-                                        var hashMap =
-                                            Preferences.getObjectFromPreference<HashMap<String, SignUpDO>>(Preferences.USER_HASH_MAP)
-                                        if (hashMap == null)
-                                            hashMap = HashMap()
-                                        hashMap[signUpDO.mobileNo] = signUpDO
-                                        Preferences.saveObjectInPreference(Preferences.USER_HASH_MAP, hashMap)
 
-                                        val intent = Intent(activity, MainActivity::class.java)
-                                        intent.putExtra("SignUpDO", signUpDO)
+                                        Preferences.saveObjectInPreference(
+                                            Preferences.USER_DETAILS_DO,
+                                            finalResult.data.Data
+                                        )
+
+                                        val intent = Intent(activity, DashboardActivity::class.java)
                                         startActivity(intent)
                                         activity?.finish()
+                                    } else if (finalResult.data != null) {
+                                        CustomAlertDialog.showDialog(
+                                            requireActivity(), getString(R.string.alert),
+                                            finalResult.data.statusMessage,
+                                            getString(R.string.ok), "", "", true
+                                        )
                                     } else {
                                         CustomAlertDialog.showDialog(
                                             requireActivity(), getString(R.string.alert),

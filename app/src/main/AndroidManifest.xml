@@ -24,9 +24,20 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
-        <activity android:name=".view.activities.MessageViewActivity"/>
-        <activity android:name=".view.activities.DashboardActivity" />
-        <activity android:name=".view.activities.ChatActivity" />
+        <activity
+            android:name=".view.activities.PackageSelectionActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/packages" />
+        <activity
+            android:name=".view.activities.MessageViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activities.DashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activities.ChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reliv.NoActionbar" />
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -2,6 +2,9 @@ package com.mukesh.reliv.model
 
 data class OtpValidationDO(
     val IsRegisterUser: Boolean,
-    val UserId: String,
-    val Token: String
+    val Token: String,
+    val IsPatient: Boolean,
+    val IsDoctor: Boolean,
+    val DoctorDetails: Any,
+    val PatientDetails: UserDO
 )

@@ -73,8 +73,7 @@ class LoginActivity : AppCompatActivity() {
                     Preferences.saveStringInPreference(Preferences.USER_ID, "")
                     Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
 
-                    showOTPPopup()
-                    /*loginActivityViewModel.generateUserOTP(name, mobNo)
+                    loginActivityViewModel.generateUserOTP(name, mobNo)
                         .observe(this@LoginActivity, { finalData ->
                             when (finalData.status) {
                                 Status.SUCCESS -> {
@@ -101,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                                 else ->
                                     CustomLoader.hideLoader()
                             }
-                        })*/
+                        })
                 }
             }
         }
@@ -120,11 +119,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onOTPComplete(otp: String) {
                 CustomLoader.showLoader(this@LoginActivity)
-                val intent =
-                    Intent(this@LoginActivity, SignUpActivity::class.java)
-                intent.putExtra("MobileNo", mobNo)
-                startActivity(intent)
-                /*loginActivityViewModel.validateUserOTP(mobNo, otp)
+                loginActivityViewModel.validateUserOTP(mobNo, otp)
                     .observe(this@LoginActivity, { finalData ->
                         when (finalData.status) {
                             Status.SUCCESS -> {
@@ -137,10 +132,29 @@ class LoginActivity : AppCompatActivity() {
                                             finalData.data.Data.Token
                                         )
                                     }
-                                    finalData.data.Data.Token.let {
-                                        Preferences.saveStringInPreference(
-                                            Preferences.USER_ID,
-                                            finalData.data.Data.UserId
+
+                                    if (finalData.data.Data.IsPatient) {
+                                        Preferences.saveObjectInPreference(
+                                            Preferences.USER_TYPE,
+                                            "Patient"
+                                        )
+                                        finalData.data.Data.PatientDetails.let {
+                                            Preferences.saveObjectInPreference(
+                                                Preferences.USER_DETAILS_DO,
+                                                finalData.data.Data.PatientDetails
+                                            )
+
+                                            finalData.data.Data.PatientDetails.Patient_Id.let {
+                                                Preferences.saveStringInPreference(
+                                                    Preferences.USER_ID,
+                                                    finalData.data.Data.PatientDetails.Patient_Id
+                                                )
+                                            }
+                                        }
+                                    } else {
+                                        Preferences.saveObjectInPreference(
+                                            Preferences.USER_TYPE,
+                                            "Patient"
                                         )
                                     }
 
@@ -150,7 +164,13 @@ class LoginActivity : AppCompatActivity() {
                                         intent.putExtra("MobileNo", mobNo)
                                         startActivity(intent)
                                     } else {
-                                        loginActivityViewModel.getUserDetails()
+                                        val intent =
+                                            Intent(
+                                                this@LoginActivity,
+                                                DashboardActivity::class.java
+                                            )
+                                        startActivity(intent)
+                                        /*loginActivityViewModel.getUserDetails()
                                             .observe(this@LoginActivity, { finalResult ->
                                                 when (finalResult.status) {
                                                     Status.SUCCESS -> {
@@ -162,10 +182,30 @@ class LoginActivity : AppCompatActivity() {
                                                             val intent =
                                                                 Intent(
                                                                     this@LoginActivity,
-                                                                    SignUpActivity::class.java
+                                                                    ChatActivity::class.java
                                                                 )
                                                             intent.putExtra("MobileNo", mobNo)
                                                             startActivity(intent)
+                                                        } else if (finalResult.data != null) {
+                                                            CustomAlertDialog.showDialog(
+                                                                this@LoginActivity,
+                                                                getString(R.string.alert),
+                                                                finalResult.data.statusMessage,
+                                                                getString(R.string.ok),
+                                                                "",
+                                                                "",
+                                                                true
+                                                            )
+                                                        } else {
+                                                            CustomAlertDialog.showDialog(
+                                                                this@LoginActivity,
+                                                                getString(R.string.alert),
+                                                                getString(R.string.something_went_wrong),
+                                                                getString(R.string.ok),
+                                                                "",
+                                                                "",
+                                                                true
+                                                            )
                                                         }
                                                     }
                                                     Status.ERROR -> {
@@ -183,7 +223,7 @@ class LoginActivity : AppCompatActivity() {
                                                     else ->
                                                         CustomLoader.hideLoader()
                                                 }
-                                            })
+                                            })*/
                                     }
                                 }
                             }
@@ -198,7 +238,7 @@ class LoginActivity : AppCompatActivity() {
                             else ->
                                 CustomLoader.hideLoader()
                         }
-                    })*/
+                    })
             }
         })
 
