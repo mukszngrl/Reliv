@@ -1,6 +1,6 @@
 package com.mukesh.reliv.model
 
-data class UserDO(
+data class UserRequestDO(
     val Pd_First_Name: String,
     val Pd_Last_Name: String,
     val Pd_Photo: String,
