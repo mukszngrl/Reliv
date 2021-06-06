@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val MAIN_SERVER = "http://2b338487e3ab.ngrok.io"
+    private const val MAIN_SERVER = "http://3f5abaa60167.ngrok.io"
     private const val MAIN_URL = "$MAIN_SERVER/ReliveApp/api/Relive/"
     private const val ImageUploadURL = "$MAIN_SERVER/ReliveApp/UploadImage.aspx"
     private const val MESIBO_SERVER = "https://api.mesibo.com"
@@ -66,7 +66,7 @@ object RetrofitClient {
         headerHashMap["Content-Type"] = "application/json"
         headerHashMap["UserId"] =
             Preferences.getStringFromPreference(Preferences.USER_ID, "0").toString()
-        headerHashMap["GuidToken"] =
+        headerHashMap["Token"] =
             Preferences.getStringFromPreference(Preferences.GUID_TOKEN, "").toString()
         headerHashMap["UserType"] =
             Preferences.getStringFromPreference(Preferences.USER_TYPE, "Patient").toString()

@@ -11,6 +11,7 @@ import com.mesibo.messaging.MesiboMessagingFragment
 import com.mesibo.messaging.MesiboUI
 import com.mesibo.messaging.MesiboUserListFragment
 import com.mukesh.reliv.R
+import com.mukesh.reliv.common.Preferences
 
 
 class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.FragmentListener {
@@ -35,8 +36,6 @@ class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.Fragmen
             .commit()
 
         setTitleBar()
-
-        MesiboCall.getInstance().init(applicationContext)
     }
 
     private fun setTitleBar() {
@@ -54,7 +53,8 @@ class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.Fragmen
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_chat_options, menu)
+        if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "") == "Doctor")
+            menuInflater.inflate(R.menu.menu_chat_options, menu)
         return true
     }
 

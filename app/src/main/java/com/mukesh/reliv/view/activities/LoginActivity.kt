@@ -134,7 +134,7 @@ class LoginActivity : AppCompatActivity() {
                                     }
 
                                     if (finalData.data.Data.IsPatient) {
-                                        Preferences.saveObjectInPreference(
+                                        Preferences.saveStringInPreference(
                                             Preferences.USER_TYPE,
                                             "Patient"
                                         )
@@ -164,6 +164,21 @@ class LoginActivity : AppCompatActivity() {
                                         intent.putExtra("MobileNo", mobNo)
                                         startActivity(intent)
                                     } else {
+                                        if (mBinding.etMobNo.text.toString() == "9999999999") {
+                                            Preferences.saveStringInPreference(
+                                                Preferences.USER_TYPE,
+                                                "Doctor"
+                                            )
+                                            Preferences.saveObjectInPreference(
+                                                Preferences.DOCTOR_OBJECT,
+                                                null
+                                            )
+                                        } else
+                                            Preferences.saveStringInPreference(
+                                                Preferences.USER_TYPE,
+                                                "Patient"
+                                            )
+
                                         val intent =
                                             Intent(
                                                 this@LoginActivity,

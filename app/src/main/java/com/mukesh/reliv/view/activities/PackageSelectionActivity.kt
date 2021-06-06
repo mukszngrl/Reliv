@@ -115,8 +115,8 @@ class PackageSelectionActivity : AppCompatActivity(), PaymentResultListener {
         )
         Preferences.saveBooleanInPreference(Preferences.IS_PAYMENT_DONE, true)
         val doctor = UserDO(
-            "0", "Vipin", "Jain", "",
-            "7569858421", "Male", "03 Feb 1987",
+            "0", "Doctor", "XXX", "",
+            "9999999999", "Male", "03 Feb 1987",
             "1.4 M", "70 KG", "", "05:00PM - 06:00PM"
         )
         Preferences.saveBooleanInPreference(Preferences.IS_PAYMENT_DONE, true)

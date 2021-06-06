@@ -7,15 +7,26 @@
     android:background="@color/dashboard_purple"
     tools:context=".view.activities.DashboardActivity">
 
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        android:fontFamily="@font/helvetica_bold"
+        android:text="@string/welcome_to_reliv"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp" />
 
     <LinearLayout
+        android:id="@+id/ll_disease"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_below="@+id/tv_welcome"
         android:layout_marginBottom="@dimen/_16sdp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
@@ -65,6 +76,37 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_bottom"
+        android:layout_below="@+id/tv_welcome"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/doctor"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:text="Doctor XXX"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sdp" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
@@ -73,6 +115,7 @@
         android:background="@color/white">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cv_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -81,28 +124,50 @@
             app:cardElevation="@dimen/_10sdp"
             app:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/tv_booked_slot"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_margin="@dimen/_10sdp"
-                android:fontFamily="@font/helvetica"
                 android:gravity="center"
-                android:text="@string/doctor_slot_not_booked_yet"
-                android:textColor="@color/gray_dark_color"
-                android:textSize="@dimen/_15sdp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_booked_slot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvetica"
+                    android:gravity="center"
+                    android:text="@string/doctor_slot_not_booked_yet"
+                    android:textColor="@color/gray_dark_color"
+                    android:textSize="@dimen/_15sdp" />
+
+                <TextView
+                    android:id="@+id/tv_chat_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:fontFamily="@font/helvetica"
+                    android:gravity="center"
+                    android:text="@string/chat_now"
+                    android:textColor="@color/gray_dark_color"
+                    android:textSize="@dimen/_12sdp"
+                    app:drawableEndCompat="@drawable/arrow_right"
+                    app:drawableStartCompat="@drawable/message" />
+
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/iv_consult"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_34sdp"
         android:layout_alignTop="@+id/rl_bottom"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/_minus16sdp"
         android:src="@drawable/consulnt_doctor"
+        android:visibility="visible"
         tools:ignore="ContentDescription" />
 
 </RelativeLayout>

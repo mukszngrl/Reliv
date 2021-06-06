@@ -115,6 +115,7 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
                     true
                 )
             } else {
+                CustomLoader.showLoader(requireActivity())
                 val signUpDO = SignUpDO(
                     mobileNo = signUpDOTemp.mobileNo,
                     firstName = signUpDOTemp.firstName,
@@ -142,6 +143,7 @@ class YourLocationFragment : Fragment(), OnMapReadyCallback {
                     .observe(viewLifecycleOwner, { finalResult ->
                         when (finalResult.status) {
                             Status.SUCCESS -> {
+                                CustomLoader.hideLoader()
                                 if (finalResult.data != null && finalResult.data.statusCode == 200) {
 
                                     Preferences.saveObjectInPreference(

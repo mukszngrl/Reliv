@@ -17,22 +17,22 @@ class LoginActivityViewModel : ViewModel() {
 
     fun generateUserOTP(name: String, mobNo: String)
             : LiveData<Resource<GenerateOTPResponseDO>> {
-        generateOTPLiveData = LoginActivityRepository.generateUserOTP(name, mobNo)
+        generateOTPLiveData = Transformations.distinctUntilChanged(LoginActivityRepository.generateUserOTP(name, mobNo))
         return Transformations.distinctUntilChanged(generateOTPLiveData as MutableLiveData<Resource<GenerateOTPResponseDO>>)
     }
 
     fun validateUserOTP(mobNo: String, otp: String): LiveData<Resource<ValidateOTPResponseDO>> {
-        validateUserOTPLiveData = LoginActivityRepository.validateUserOTP(mobNo, otp)
+        validateUserOTPLiveData = Transformations.distinctUntilChanged(LoginActivityRepository.validateUserOTP(mobNo, otp))
         return Transformations.distinctUntilChanged(validateUserOTPLiveData as MutableLiveData<Resource<ValidateOTPResponseDO>>)
     }
 
     fun getUserDetails(): LiveData<Resource<UserDetailsResponse>> {
-        userDetails = LoginActivityRepository.getUserDetails()
+        userDetails = Transformations.distinctUntilChanged(LoginActivityRepository.getUserDetails())
         return Transformations.distinctUntilChanged(userDetails as MutableLiveData<Resource<UserDetailsResponse>>)
     }
 
     fun signUp(signUpDO: RegistrationRequestDO): LiveData<Resource<UserDetailsResponse>> {
-        userDetailsSignUp = LoginActivityRepository.signUp(signUpDO)
+        userDetailsSignUp = Transformations.distinctUntilChanged(LoginActivityRepository.signUp(signUpDO))
         return Transformations.distinctUntilChanged(userDetailsSignUp as MutableLiveData<Resource<UserDetailsResponse>>)
     }
 }

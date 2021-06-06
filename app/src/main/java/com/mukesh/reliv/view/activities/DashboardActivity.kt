@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.mesibo.api.Mesibo
+import com.mesibo.calls.api.MesiboCall
 import com.mesibo.messaging.MesiboUI
 import com.mukesh.reliv.R
 import com.mukesh.reliv.common.Preferences
@@ -45,7 +46,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         mBinding.ivCholestrol.setOnClickListener(this)
         mBinding.ivObesity.setOnClickListener(this)
         mBinding.ivThyroid.setOnClickListener(this)
-        mBinding.tvBookedSlot.setOnClickListener(this)
+        mBinding.cvChat.setOnClickListener(this)
 
         setTitleBar()
         initialiseMesibo()
@@ -57,10 +58,23 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
         Mesibo.addListener(this)
         Mesibo.setSecureConnection(true)
-//        Mesibo.setAccessToken("651e776e8a049268d2499ddcf737a939d4a92f92c047eecc32ef84")
-        Mesibo.setAccessToken("ccbf0f8b457746734ca06c9af036e3ddc50a239d17123ce6632ec8b")
+        if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "") == "Doctor") {
+            Mesibo.setAccessToken("6470c71261fbf55047a887aabb3b0808b29abafdd72aedc1e1132f081")
+            mBinding.tvBookedSlot.text = "Slot booked with Patient"
+            mBinding.llDisease.visibility = View.GONE
+            mBinding.llDoctor.visibility = View.VISIBLE
+            mBinding.ivConsult.visibility = View.INVISIBLE
+        } else {
+            Mesibo.setAccessToken("b992fa982172fc4aee74fdc2b48e19370a9d43cce483e9932f09a")
+            mBinding.llDisease.visibility = View.VISIBLE
+            mBinding.llDoctor.visibility = View.GONE
+            mBinding.ivConsult.visibility = View.VISIBLE
+            mBinding.tvChatNow.visibility = View.GONE
+        }
         Mesibo.setDatabase("mydb", 0)
         Mesibo.start()
+
+        MesiboCall.getInstance().init(applicationContext)
     }
 
     private fun setTitleBar() {
@@ -86,7 +100,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         if (Preferences.getObjectFromPreference<UserDO>(Preferences.DOCTOR_OBJECT) != null) {
             val userDO = Preferences.getObjectFromPreference<UserDO>(Preferences.DOCTOR_OBJECT)
             mBinding.tvBookedSlot.text =
-                "Your slot are booked with ${userDO?.Pd_First_Name} ${userDO?.Pd_Last_Name} at ${userDO?.SchedulingTimes}"
+                "Your slot is booked with ${userDO?.Pd_First_Name} ${userDO?.Pd_Last_Name} at ${userDO?.SchedulingTimes}"
+            mBinding.tvChatNow.visibility = View.VISIBLE
         }
     }
 
@@ -101,25 +116,25 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 startActivity(intent)
             }
-            R.id.tv_booked_slot -> {
-//                if (mBinding.tvBookedSlot.text.toString() != getString(R.string.doctor_slot_not_booked_yet)) {
-                onLaunchMessagingUi()
-//                }
+            R.id.cv_chat -> {
+                if (mBinding.tvBookedSlot.text.toString() != getString(R.string.doctor_slot_not_booked_yet)) {
+                    onLaunchMessagingUi()
+                }
             }
         }
     }
 
     private fun onLaunchMessagingUi() {
         val mProfile = Mesibo.UserProfile()
-        mProfile.address = "7569858421"
-        mProfile.name = "Vipin"
+        if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "") == "Doctor") {
+            mProfile.address = "8888888888"
+            mProfile.name = "Patient"
+        } else {
+            mProfile.address = "9999999999"
+            mProfile.name = "Doctor"
+        }
         Mesibo.setUserProfile(mProfile, false)
-/*
-        val mProfile = Mesibo.UserProfile()
-        mProfile.address = "9405986565"
-        mProfile.name = "Mukesh"
-        Mesibo.setUserProfile(mProfile, false)
-*/
+
 //        MesiboUI.launchMessageView(this, mProfile.address, 0)
 
         val intent = Intent(this, MessageViewActivity::class.java)

@@ -101,6 +101,8 @@
     <string name="failure">Failure</string>
     <string name="payment_failure">Payment failure, please try again.</string>
     <string name="packages">Packages</string>
+    <string name="welcome_to_reliv">Welcome to RELIV</string>
+    <string name="chat_now">Chat Now</string>
 
     <string-array name="month_list">
         <item>Jan</item>
