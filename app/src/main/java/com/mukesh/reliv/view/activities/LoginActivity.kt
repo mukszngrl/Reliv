@@ -20,8 +20,12 @@ import com.mukesh.reliv.common.CustomLoader
 import com.mukesh.reliv.common.Preferences
 import com.mukesh.reliv.databinding.ActivityLoginBinding
 import com.mukesh.reliv.databinding.PopupOtpBinding
+import com.mukesh.reliv.model.GenerateOTPResponseDO
+import com.mukesh.reliv.model.ValidateOTPResponseDO
+import com.mukesh.reliv.retrofit.RetrofitClient
 import com.mukesh.reliv.retrofit.Status
 import com.mukesh.reliv.viewmodel.LoginActivityViewModel
+import retrofit2.Response
 import java.util.*
 
 
@@ -72,8 +76,45 @@ class LoginActivity : AppCompatActivity() {
 
                     Preferences.saveStringInPreference(Preferences.USER_ID, "")
                     Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
+                    Thread {
+                        val call = RetrofitClient.apiInterface.generateUserOTP(
+                            name = name,
+                            mobileNo = mobNo
+                        )
+                        val response: Response<GenerateOTPResponseDO> = call.execute()
+                        val otpResponse: GenerateOTPResponseDO? = response.body()
+                        runOnUiThread {
+                            try {
+                                CustomLoader.hideLoader()
+                                if (otpResponse != null) {
+                                    if (otpResponse.statusCode == 200) {
+                                        showOTPPopup()
+                                    } else {
+                                        CustomAlertDialog.showDialog(
+                                            this@LoginActivity, getString(R.string.alert),
+                                            otpResponse.statusMessage,
+                                            getString(R.string.ok), "", "", true
+                                        )
+                                    }
+                                } else {
+                                    CustomAlertDialog.showDialog(
+                                        this@LoginActivity, getString(R.string.alert),
+                                        response.message(),
+                                        getString(R.string.ok), "", "", true
+                                    )
+                                }
+                            } catch (ex: Exception) {
+                                CustomLoader.hideLoader()
+                                CustomAlertDialog.showDialog(
+                                    this@LoginActivity, getString(R.string.alert),
+                                    ex.printStackTrace().toString(),
+                                    getString(R.string.ok), "", "", true
+                                )
+                            }
+                        }
+                    }.start()
 
-                    loginActivityViewModel.generateUserOTP(name, mobNo)
+                    /*loginActivityViewModel.generateUserOTP(name, mobNo)
                         .observe(this@LoginActivity, { finalData ->
                             when (finalData.status) {
                                 Status.SUCCESS -> {
@@ -100,7 +141,7 @@ class LoginActivity : AppCompatActivity() {
                                 else ->
                                     CustomLoader.hideLoader()
                             }
-                        })
+                        })*/
                 }
             }
         }
@@ -119,7 +160,103 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onOTPComplete(otp: String) {
                 CustomLoader.showLoader(this@LoginActivity)
-                loginActivityViewModel.validateUserOTP(mobNo, otp)
+
+                Thread {
+                    val call =
+                        RetrofitClient.apiInterface.validateUserOTP(mobileNo = mobNo, otp = otp)
+                    val response: Response<ValidateOTPResponseDO> = call.execute()
+                    val otpValidationResponse: ValidateOTPResponseDO? = response.body()
+                    try {
+                        runOnUiThread {
+                            CustomLoader.hideLoader()
+                            if (otpValidationResponse != null) {
+                                if (otpValidationResponse.statusCode == 200) {
+                                    mCustomOTPDialog.dismiss()
+                                    otpValidationResponse.Data.Token.let {
+                                        Preferences.saveStringInPreference(
+                                            Preferences.GUID_TOKEN,
+                                            otpValidationResponse.Data.Token
+                                        )
+                                    }
+
+                                    if (otpValidationResponse.Data.IsPatient) {
+                                        Preferences.saveStringInPreference(
+                                            Preferences.USER_TYPE,
+                                            "Patient"
+                                        )
+                                        otpValidationResponse.Data.PatientDetails.let {
+                                            Preferences.saveObjectInPreference(
+                                                Preferences.USER_DETAILS_DO,
+                                                otpValidationResponse.Data.PatientDetails
+                                            )
+
+                                            otpValidationResponse.Data.PatientDetails.Patient_Id.let {
+                                                Preferences.saveStringInPreference(
+                                                    Preferences.USER_ID,
+                                                    otpValidationResponse.Data.PatientDetails.Patient_Id
+                                                )
+                                            }
+                                        }
+                                    } else {
+                                        Preferences.saveObjectInPreference(
+                                            Preferences.USER_TYPE,
+                                            "Patient"
+                                        )
+                                    }
+
+                                    if (!otpValidationResponse.Data.IsRegisterUser) {
+                                        val intent =
+                                            Intent(this@LoginActivity, SignUpActivity::class.java)
+                                        intent.putExtra("MobileNo", mobNo)
+                                        startActivity(intent)
+                                    } else {
+                                        if (mBinding.etMobNo.text.toString() == "9999999999") {
+                                            Preferences.saveStringInPreference(
+                                                Preferences.USER_TYPE,
+                                                "Doctor"
+                                            )
+                                            Preferences.saveObjectInPreference(
+                                                Preferences.DOCTOR_OBJECT,
+                                                null
+                                            )
+                                        } else
+                                            Preferences.saveStringInPreference(
+                                                Preferences.USER_TYPE,
+                                                "Patient"
+                                            )
+
+                                        val intent =
+                                            Intent(
+                                                this@LoginActivity,
+                                                DashboardActivity::class.java
+                                            )
+                                        startActivity(intent)
+                                    }
+                                } else {
+                                    CustomAlertDialog.showDialog(
+                                        this@LoginActivity, getString(R.string.alert),
+                                        otpValidationResponse.statusMessage,
+                                        getString(R.string.ok), "", "", true
+                                    )
+                                }
+                            } else {
+                                CustomAlertDialog.showDialog(
+                                    this@LoginActivity, getString(R.string.alert),
+                                    response.message(),
+                                    getString(R.string.ok), "", "", true
+                                )
+                            }
+                        }
+                    } catch (ex: Exception) {
+                        CustomLoader.hideLoader()
+                        CustomAlertDialog.showDialog(
+                            this@LoginActivity, getString(R.string.alert),
+                            ex.printStackTrace().toString(),
+                            getString(R.string.ok), "", "", true
+                        )
+                    }
+                }.start()
+                /*loginActivityViewModel.validateUserOTP(mobNo, otp)
                     .observe(this@LoginActivity, { finalData ->
                         when (finalData.status) {
                             Status.SUCCESS -> {
@@ -185,7 +322,7 @@ class LoginActivity : AppCompatActivity() {
                                                 DashboardActivity::class.java
                                             )
                                         startActivity(intent)
-                                        /*loginActivityViewModel.getUserDetails()
+                                        *//*loginActivityViewModel.getUserDetails()
                                             .observe(this@LoginActivity, { finalResult ->
                                                 when (finalResult.status) {
                                                     Status.SUCCESS -> {
@@ -238,7 +375,7 @@ class LoginActivity : AppCompatActivity() {
                                                     else ->
                                                         CustomLoader.hideLoader()
                                                 }
-                                            })*/
+                                            })*//*
                                     }
                                 }
                             }
@@ -253,7 +390,7 @@ class LoginActivity : AppCompatActivity() {
                             else ->
                                 CustomLoader.hideLoader()
                         }
-                    })
+                    })*/
             }
         })
 
