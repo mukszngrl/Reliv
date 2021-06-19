@@ -10,9 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val MAIN_SERVER = "http://3f5abaa60167.ngrok.io"
-    private const val MAIN_URL = "$MAIN_SERVER/ReliveApp/api/Relive/"
-    private const val ImageUploadURL = "$MAIN_SERVER/ReliveApp/UploadImage.aspx"
+    private const val MAIN_URL = "http://independentr.com/api/Relive/"
+    private const val ImageUploadURL = "http://independentr.com/ReliveApp/UploadImage.aspx"
     private const val MESIBO_SERVER = "https://api.mesibo.com"
 
     private val retrofitClient: Retrofit.Builder by lazy {

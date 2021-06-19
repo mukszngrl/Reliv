@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.telephony.SmsMessage
 import android.view.WindowManager
 import android.widget.Toast
@@ -27,6 +28,7 @@ import com.mukesh.reliv.retrofit.Status
 import com.mukesh.reliv.viewmodel.LoginActivityViewModel
 import retrofit2.Response
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class LoginActivity : AppCompatActivity() {
@@ -36,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginActivityViewModel: LoginActivityViewModel
     private lateinit var mobNo: String
     private lateinit var name: String
+    private lateinit var resendOTPTimer: ResendOTPTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,8 @@ class LoginActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = resources.getColor(R.color.very_gray_light_color)
         }
+
+        resendOTPTimer = ResendOTPTimer()
 
         loginActivityViewModel = ViewModelProvider(this).get(LoginActivityViewModel::class.java)
 
@@ -152,6 +157,17 @@ class LoginActivity : AppCompatActivity() {
         otpBinding = PopupOtpBinding.inflate(layoutInflater)
         mCustomOTPDialog.setContentView(otpBinding.root)
         otpBinding.otpView.requestFocus()
+
+        otpBinding.tvResendOTP.setOnClickListener {
+            loginActivityViewModel.generateUserOTP(name, mobNo)
+                .observe(this@LoginActivity, { finalData ->
+                    if (finalData.status == Status.SUCCESS) {
+                        if (finalData.data != null && finalData.data.statusCode == 200) {
+                            resendOTPTimer.start()
+                        }
+                    }
+                })
+        }
 
         otpBinding.otpView.otpListener(object : OTPListener {
             override fun onInteractionListener() {
@@ -398,6 +414,7 @@ class LoginActivity : AppCompatActivity() {
         mCustomOTPDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         mCustomOTPDialog.show()
 
+        resendOTPTimer.start()
         CustomLoader.hideLoader()
     }
 
@@ -444,5 +461,33 @@ class LoginActivity : AppCompatActivity() {
 
     private fun OtpTextView.otpListener(otpListener: OTPListener) {
         this.otpListener = otpListener
+    }
+
+    inner class ResendOTPTimer(
+        millisInFuture: Long = 60000,
+        countDownInterval: Long = 1000
+    ) : CountDownTimer(millisInFuture, countDownInterval) {
+
+        override fun onTick(millis: Long) {
+            otpBinding.tvResendOTP.isEnabled = false
+            otpBinding.tvResendOTP.isClickable = false
+            otpBinding.tvResendOTP.setTextColor(resources.getColor(R.color.gray_light_color))
+            otpBinding.tvTimer.setTextColor(resources.getColor(R.color.gray_dark_color))
+            otpBinding.tvTimer.text = String.format(
+                "%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(millis) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), // The change is in this line
+                TimeUnit.MILLISECONDS.toSeconds(millis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+            )
+        }
+
+        override fun onFinish() {
+            otpBinding.tvResendOTP.isEnabled = true
+            otpBinding.tvResendOTP.isClickable = true
+            otpBinding.tvResendOTP.setTextColor(resources.getColor(R.color.gray_dark_color))
+            otpBinding.tvTimer.setTextColor(resources.getColor(R.color.gray_light_color))
+            otpBinding.tvTimer.text = getString(R.string.timer_zero)
+        }
     }
 }

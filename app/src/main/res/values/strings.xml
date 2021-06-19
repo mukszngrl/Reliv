@@ -103,6 +103,7 @@
     <string name="packages">Packages</string>
     <string name="welcome_to_reliv">Welcome to RELIV</string>
     <string name="chat_now">Chat Now</string>
+    <string name="timer_zero">00:00</string>
 
     <string-array name="month_list">
         <item>Jan</item>
