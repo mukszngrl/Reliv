@@ -2,6 +2,7 @@ package com.mukesh.reliv.view.activities
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
+import android.Manifest
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,11 +11,18 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.provider.MediaStore
 import android.telephony.SmsMessage
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import com.mukesh.reliv.R
 import com.mukesh.reliv.common.CustomAlertDialog
 import com.mukesh.reliv.common.CustomLoader
@@ -39,6 +47,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mobNo: String
     private lateinit var name: String
     private lateinit var resendOTPTimer: ResendOTPTimer
+    private var isBroadcastInitialised: Boolean = false
+    private var isAutoRead: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +91,9 @@ class LoginActivity : AppCompatActivity() {
 
                     Preferences.saveStringInPreference(Preferences.USER_ID, "")
                     Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
+
+                    showOTPPopup()
+
                     Thread {
                         val call = RetrofitClient.apiInterface.generateUserOTP(
                             name = name,
@@ -93,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                                 CustomLoader.hideLoader()
                                 if (otpResponse != null) {
                                     if (otpResponse.statusCode == 200) {
-                                        showOTPPopup()
+
                                     } else {
                                         CustomAlertDialog.showDialog(
                                             this@LoginActivity, getString(R.string.alert),
@@ -150,6 +163,32 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+        Dexter.withContext(this).withPermission(
+            Manifest.permission.RECEIVE_SMS
+        ).withListener(object : PermissionListener {
+
+            override fun onPermissionGranted(res: PermissionGrantedResponse?) {
+                val intentFilter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
+                this@LoginActivity.registerReceiver(smsListener, intentFilter)
+                isBroadcastInitialised = true
+            }
+
+            override fun onPermissionDenied(res: PermissionDeniedResponse?) {
+                isBroadcastInitialised = false
+                Toast.makeText(
+                    this@LoginActivity,
+                    "OTP will not fetched automatically",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                p0: PermissionRequest?,
+                p1: PermissionToken?
+            ) {
+            }
+        }).onSameThread().check()
     }
 
     private fun showOTPPopup() {
@@ -175,8 +214,9 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onOTPComplete(otp: String) {
+                if (isAutoRead)
+                    Thread.sleep(2000)
                 CustomLoader.showLoader(this@LoginActivity)
-
                 Thread {
                     val call =
                         RetrofitClient.apiInterface.validateUserOTP(mobileNo = mobNo, otp = otp)
@@ -435,7 +475,15 @@ class LoginActivity : AppCompatActivity() {
                             // msg_from = msgs[i].getOriginatingAddress();
                             val msgBody: String = msgs[i]?.messageBody ?: ""
                             otpBinding.let {
-                                otpBinding.otpView.let { otpBinding.otpView.setOTP(msgBody) }
+                                otpBinding.otpView.let {
+                                    isAutoRead = true
+                                    otpBinding.otpView.setOTP(
+                                        msgBody.replace(
+                                            ".",
+                                            ""
+                                        ).split(": ")[1]
+                                    )
+                                }
                             }
                             // do your stuff
                         }
@@ -450,13 +498,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        this@LoginActivity.unregisterReceiver(smsListener)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val intentFilter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
-        this@LoginActivity.registerReceiver(smsListener, intentFilter)
+        if (isBroadcastInitialised)
+            this@LoginActivity.unregisterReceiver(smsListener)
     }
 
     private fun OtpTextView.otpListener(otpListener: OTPListener) {
