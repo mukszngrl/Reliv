@@ -85,7 +85,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
                 else -> {
-                    CustomLoader.showLoader(this)
                     name = mBinding.etUsername.text.toString().trim()
                     mobNo = mBinding.etMobNo.text.toString().trim()
 
@@ -93,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
                     Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
 
                     showOTPPopup()
-
+                    CustomLoader.showLoader(this)
                     Thread {
                         val call = RetrofitClient.apiInterface.generateUserOTP(
                             name = name,
