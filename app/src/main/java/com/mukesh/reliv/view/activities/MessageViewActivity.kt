@@ -17,12 +17,14 @@ import com.mukesh.reliv.common.Preferences
 class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.FragmentListener {
     private lateinit var peer: String
     private lateinit var name: String
+    private lateinit var designation: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_view)
 
         peer = intent.getStringExtra("address").toString()
         name = intent.getStringExtra("name").toString()
+        designation = intent.getStringExtra("designation").toString()
 
         val userListFragment = MesiboMessagingFragment()
         userListFragment.setListener()
@@ -44,6 +46,7 @@ class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.Fragmen
         if (actionBar != null) {
             // setting the title
             actionBar.title = name
+            actionBar.subtitle = designation
             actionBar.setLogo(R.drawable.reliv_logo)
             // Customize the back button
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white)

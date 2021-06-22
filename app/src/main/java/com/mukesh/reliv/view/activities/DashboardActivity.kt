@@ -150,13 +150,15 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         doctorSchedule: DoctorScheduleTimingsDO?
     ) {
         val mProfile = Mesibo.UserProfile()
-
+        val intent = Intent(this, MessageViewActivity::class.java)
         if (patientSchedule != null) {
             mProfile.address = patientSchedule.Dd_Phone
-            mProfile.name = "${patientSchedule.Dd_Name} (${patientSchedule.Dd_Designation})"
+            mProfile.name = "${patientSchedule.Dd_Prefix} ${patientSchedule.Dd_Name}"
+            intent.putExtra("designation", patientSchedule.Dd_Designation)
         } else {
             mProfile.address = doctorSchedule?.Dd_Phone
             mProfile.name = doctorSchedule?.Dd_Name
+            intent.putExtra("designation", "")
         }
         /*if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "") == "Doctor") {
             mProfile.address = "8888888888"
@@ -169,7 +171,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
 //        MesiboUI.launchMessageView(this, mProfile.address, 0)
 
-        val intent = Intent(this, MessageViewActivity::class.java)
+
         intent.putExtra("address", mProfile.address)
         intent.putExtra("name", mProfile.name)
         startActivity(intent)
@@ -185,7 +187,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             mBinding.swipeRefresh.isRefreshing = false
 
             try {
-                runOnUiThread{
+                runOnUiThread {
                     scheduleResponse.let {
                         if (scheduleResponse?.statusCode == 200) {
                             if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "")
