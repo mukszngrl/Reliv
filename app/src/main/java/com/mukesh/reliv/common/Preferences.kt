@@ -14,6 +14,7 @@ object Preferences {
     const val USER_ID: String = "USER_ID"
     const val GUID_TOKEN: String = "GUID_TOKEN"
     const val MESIBO_USER_TOKEN: String = "MESIBO_USER_TOKEN"
+    const val LAST_MESIBO_USER: String = "LAST_MESIBO_USER"
     const val MESIBO_USER_TOKEN_RESPONSE_OBJECT: String = "MESIBO_USER_TOKEN_RESPONSE_OBJECT"
     private const val PREFS_FILENAME = "com.mukesh.reliv.prefs"
     var preferences: SharedPreferences? = null

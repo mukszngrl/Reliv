@@ -25,6 +25,11 @@ interface ApiInterface {
         @Query("otp") otp: String
     ): Call<ValidateOTPResponseDO>
 
+    @GET("GetScheduledDetails")
+    fun getScheduledDetails(
+        @HeaderMap headers: HashMap<String, String>
+    ): Call<GetScheduleDetailsResponse>
+
     @POST("SignUp")
     fun signUp(
         @HeaderMap headers: HashMap<String, String>,

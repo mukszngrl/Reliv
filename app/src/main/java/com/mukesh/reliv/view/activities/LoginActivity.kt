@@ -79,11 +79,11 @@ class LoginActivity : AppCompatActivity() {
                     getString(R.string.please_enter_mobile_number),
                     Toast.LENGTH_SHORT
                 ).show()
-                mBinding.etMobNo.text.toString().trim().length != 10 -> Toast.makeText(
+               /* mBinding.etMobNo.text.toString().trim().length != 10 -> Toast.makeText(
                     this@LoginActivity,
                     getString(R.string.entered_mobile_number_length_should_be_10),
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
                 else -> {
                     name = mBinding.etUsername.text.toString().trim()
                     mobNo = mBinding.etMobNo.text.toString().trim()

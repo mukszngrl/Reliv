@@ -1,173 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dashboard_purple"
-    tools:context=".view.activities.DashboardActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_welcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
-        android:fontFamily="@font/helvetica_bold"
-        android:text="@string/welcome_to_reliv"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_16sdp" />
-
-    <LinearLayout
-        android:id="@+id/ll_disease"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_bottom"
-        android:layout_below="@+id/tv_welcome"
-        android:layout_marginBottom="@dimen/_16sdp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:background="@color/dashboard_purple"
+        tools:context=".view.activities.DashboardActivity">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_15sdp"
-            android:text="@string/what_service_you_need"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_14sdp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_17sdp"
-            android:layout_marginEnd="@dimen/_17sdp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_obesity"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:src="@drawable/obesity"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:id="@+id/iv_cholestrol"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:src="@drawable/cholestrol"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:id="@+id/iv_thyroid"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:src="@drawable/thyroid"
-                tools:ignore="ContentDescription" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_doctor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/rl_bottom"
-        android:layout_below="@+id/tv_welcome"
-        android:layout_marginBottom="@dimen/_16sdp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:src="@drawable/doctor"
-            tools:ignore="ContentDescription" />
-
-        <TextView
+            android:id="@+id/tv_welcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:fontFamily="@font/helvetica_bold"
-            android:gravity="center"
-            android:text="Doctor XXX"
+            android:text="@string/welcome_to_reliv"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp" />
 
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_chat"
+        <LinearLayout
+            android:id="@+id/ll_disease"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_10sdp"
-            app:cardUseCompatPadding="true">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rl_bottom"
+            android:layout_below="@+id/tv_welcome"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:text="@string/what_service_you_need"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_17sdp"
+                android:layout_marginEnd="@dimen/_17sdp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_booked_slot"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/iv_obesity"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/helvetica"
-                    android:gravity="center"
-                    android:text="@string/doctor_slot_not_booked_yet"
-                    android:textColor="@color/gray_dark_color"
-                    android:textSize="@dimen/_15sdp" />
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/obesity"
+                    tools:ignore="ContentDescription" />
 
-                <TextView
-                    android:id="@+id/tv_chat_now"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_cholestrol"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:fontFamily="@font/helvetica"
-                    android:gravity="center"
-                    android:text="@string/chat_now"
-                    android:textColor="@color/gray_dark_color"
-                    android:textSize="@dimen/_12sdp"
-                    app:drawableEndCompat="@drawable/arrow_right"
-                    app:drawableStartCompat="@drawable/message" />
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/cholestrol"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/iv_thyroid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/thyroid"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_doctor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rl_bottom"
+            android:layout_below="@+id/tv_welcome"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:src="@drawable/doctor"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="Doctor XXX"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_booked_slot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_booked_slot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/helvetica"
+                        android:gravity="center"
+                        android:text="@string/doctor_slot_not_booked_yet"
+                        android:textColor="@color/gray_dark_color"
+                        android:textSize="@dimen/_15sdp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_consult"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_34sdp"
+            android:layout_alignTop="@+id/rl_bottom"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_minus16sdp"
+            android:src="@drawable/consulnt_doctor"
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/iv_consult"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_34sdp"
-        android:layout_alignTop="@+id/rl_bottom"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/_minus16sdp"
-        android:src="@drawable/consulnt_doctor"
-        android:visibility="visible"
-        tools:ignore="ContentDescription" />
-
-</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

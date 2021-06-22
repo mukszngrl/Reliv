@@ -6,6 +6,8 @@ import java.util.*
 
 object CalendarUtils {
 
+    const val YYYY_MM_DD_T_HH_MM_SS_PATTERN = "yyyy-MM-dd'T'hh:mm:ss"
+    const val DD_MMM_YYYY_HH_MM_A_PATTERN = "dd MMM yyyy hh:mm a"
     const val DD_PATTERN = "dd"
     const val MM_PATTERN = "MM"
     const val YYYY_PATTERN = "yyyy"
