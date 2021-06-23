@@ -5,6 +5,6 @@ data class OtpValidationDO(
     val Token: String,
     val IsPatient: Boolean,
     val IsDoctor: Boolean,
-    val DoctorDetails: Any,
+    val DoctorDetails: PatientScheduleTimingsDO,
     val PatientDetails: UserDO
 )

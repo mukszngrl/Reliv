@@ -47,9 +47,14 @@ class SchedulingAdapter(context: Context) :
         } else {
             val doctorSchedule = arrDoctorSchedule?.get(position)
             if (doctorSchedule != null) {
-                holder.tvDoctorName.text = doctorSchedule.Dd_Name
-                holder.tvDoctorSpeciality.text = doctorSchedule.Dd_Designation
-                holder.tvSchedule.text = doctorSchedule.SchedulerTime
+                holder.tvDoctorName.text =
+                    "${doctorSchedule.Pd_First_Name} ${doctorSchedule.Pd_Last_Name}"
+                holder.tvDoctorSpeciality.text = doctorSchedule.Pd_Gender
+                holder.tvSchedule.text = CalendarUtils.changeDateFormat(
+                    doctorSchedule.SchedulingTimes,
+                    CalendarUtils.YYYY_MM_DD_T_HH_MM_SS_PATTERN,
+                    CalendarUtils.DD_MMM_YYYY_HH_MM_A_PATTERN
+                )
 
                 holder.itemView.setOnClickListener {
                     (context as DashboardActivity).onLaunchMessagingUi(null, doctorSchedule)

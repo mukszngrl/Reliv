@@ -46,7 +46,8 @@ class MessageViewActivity : AppCompatActivity(), MesiboMessagingFragment.Fragmen
         if (actionBar != null) {
             // setting the title
             actionBar.title = name
-            actionBar.subtitle = designation
+            if (designation.isNotEmpty())
+                actionBar.subtitle = designation
             actionBar.setLogo(R.drawable.reliv_logo)
             // Customize the back button
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white)

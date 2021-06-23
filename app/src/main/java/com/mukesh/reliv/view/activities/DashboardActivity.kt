@@ -1,5 +1,6 @@
 package com.mukesh.reliv.view.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -28,13 +29,13 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mBinding: ActivityDashboardBinding
     private lateinit var dashboardViewModel: DashboardActivityViewModel
     private lateinit var scheduleAdapter: SchedulingAdapter
-    private lateinit var userDO: UserDO
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-        userDO = Preferences.getObjectFromPreference<UserDO>(Preferences.USER_DETAILS_DO)!!
+
         dashboardViewModel = ViewModelProvider(this).get(DashboardActivityViewModel::class.java)
         scheduleAdapter = SchedulingAdapter(this)
         mBinding.rvBookedSlot.layoutManager = LinearLayoutManager(this)
@@ -44,9 +45,14 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             || Preferences.getStringFromPreference(
                 Preferences.LAST_MESIBO_USER,
                 ""
-            ) != userDO.Pd_Mobile_Number
+            ) != Preferences.getStringFromPreference(Preferences.MOBILE_NO, "")
         ) {
-            dashboardViewModel.getMesiboUserToken(userDO.Pd_Mobile_Number)!!
+            dashboardViewModel.getMesiboUserToken(
+                Preferences.getStringFromPreference(
+                    Preferences.MOBILE_NO,
+                    ""
+                )!!
+            )!!
                 .observe(this, { mesiboUserTokenResponse ->
                     CustomLoader.hideLoader()
                     mesiboUserTokenResponse.let {
@@ -61,7 +67,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                         initialiseMesibo()
                         Preferences.saveStringInPreference(
                             Preferences.LAST_MESIBO_USER,
-                            userDO.Pd_Mobile_Number
+                            Preferences.getStringFromPreference(Preferences.MOBILE_NO, "")!!
                         )
                     }
                 })
@@ -85,6 +91,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             mBinding.llDisease.visibility = View.GONE
             mBinding.llDoctor.visibility = View.VISIBLE
             mBinding.ivConsult.visibility = View.INVISIBLE
+            val docDetails: PatientScheduleTimingsDO =
+                Preferences.getObjectFromPreference<PatientScheduleTimingsDO>(Preferences.USER_DETAILS_DO)!!
+            mBinding.tvDoctorName.text = "${docDetails.Dd_Prefix} ${docDetails.Dd_Name}"
+
         } else {
             mBinding.llDisease.visibility = View.VISIBLE
             mBinding.llDoctor.visibility = View.GONE
@@ -137,11 +147,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 startActivity(intent)
             }
-            /*R.id.cv_chat -> {
-                if (mBinding.tvBookedSlot.text.toString() != getString(R.string.doctor_slot_not_booked_yet)) {
-                    onLaunchMessagingUi()
-                }
-            }*/
         }
     }
 
@@ -156,8 +161,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             mProfile.name = "${patientSchedule.Dd_Prefix} ${patientSchedule.Dd_Name}"
             intent.putExtra("designation", patientSchedule.Dd_Designation)
         } else {
-            mProfile.address = doctorSchedule?.Dd_Phone
-            mProfile.name = doctorSchedule?.Dd_Name
+            mProfile.address = doctorSchedule?.Pd_Mobile_Number
+            mProfile.name = "${doctorSchedule?.Pd_First_Name} ${doctorSchedule?.Pd_Last_Name}"
             intent.putExtra("designation", "")
         }
         /*if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "") == "Doctor") {

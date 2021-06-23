@@ -101,6 +101,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_15sdp"
@@ -146,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/helvetica"
                         android:gravity="center"
-                        android:text="@string/doctor_slot_not_booked_yet"
+                        android:text="@string/no_slot_booked_yet"
                         android:textColor="@color/gray_dark_color"
                         android:textSize="@dimen/_15sdp" />
 

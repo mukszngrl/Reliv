@@ -79,17 +79,16 @@ class LoginActivity : AppCompatActivity() {
                     getString(R.string.please_enter_mobile_number),
                     Toast.LENGTH_SHORT
                 ).show()
-               /* mBinding.etMobNo.text.toString().trim().length != 10 -> Toast.makeText(
-                    this@LoginActivity,
-                    getString(R.string.entered_mobile_number_length_should_be_10),
-                    Toast.LENGTH_SHORT
-                ).show()*/
+                /* mBinding.etMobNo.text.toString().trim().length != 10 -> Toast.makeText(
+                     this@LoginActivity,
+                     getString(R.string.entered_mobile_number_length_should_be_10),
+                     Toast.LENGTH_SHORT
+                 ).show()*/
                 else -> {
                     name = mBinding.etUsername.text.toString().trim()
                     mobNo = mBinding.etMobNo.text.toString().trim()
 
-                    Preferences.saveStringInPreference(Preferences.USER_ID, "")
-                    Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
+                    clearUserDataFromPreference()
 
                     showOTPPopup()
                     CustomLoader.showLoader(this)
@@ -251,35 +250,48 @@ class LoginActivity : AppCompatActivity() {
                                                     otpValidationResponse.Data.PatientDetails.Patient_Id
                                                 )
                                             }
+
+                                            otpValidationResponse.Data.PatientDetails.Pd_Mobile_Number.let {
+                                                Preferences.saveStringInPreference(
+                                                    Preferences.MOBILE_NO,
+                                                    otpValidationResponse.Data.PatientDetails.Pd_Mobile_Number
+                                                )
+                                            }
                                         }
                                     } else {
-                                        Preferences.saveObjectInPreference(
+                                        Preferences.saveStringInPreference(
                                             Preferences.USER_TYPE,
-                                            "Patient"
+                                            "Doctor"
                                         )
+
+                                        otpValidationResponse.Data.DoctorDetails.let {
+                                            Preferences.saveObjectInPreference(
+                                                Preferences.USER_DETAILS_DO,
+                                                otpValidationResponse.Data.DoctorDetails
+                                            )
+
+                                            otpValidationResponse.Data.DoctorDetails.Dd_id.let {
+                                                Preferences.saveStringInPreference(
+                                                    Preferences.USER_ID,
+                                                    otpValidationResponse.Data.DoctorDetails.Dd_id.toString()
+                                                )
+                                            }
+
+                                            otpValidationResponse.Data.DoctorDetails.Dd_Phone.let {
+                                                Preferences.saveStringInPreference(
+                                                    Preferences.MOBILE_NO,
+                                                    otpValidationResponse.Data.DoctorDetails.Dd_Phone
+                                                )
+                                            }
+                                        }
                                     }
 
-                                    if (!otpValidationResponse.Data.IsRegisterUser) {
+                                    if (otpValidationResponse.Data.IsPatient && !otpValidationResponse.Data.IsRegisterUser) {
                                         val intent =
                                             Intent(this@LoginActivity, SignUpActivity::class.java)
                                         intent.putExtra("MobileNo", mobNo)
                                         startActivity(intent)
                                     } else {
-                                        if (mBinding.etMobNo.text.toString() == "9999999999") {
-                                            Preferences.saveStringInPreference(
-                                                Preferences.USER_TYPE,
-                                                "Doctor"
-                                            )
-                                            Preferences.saveObjectInPreference(
-                                                Preferences.DOCTOR_OBJECT,
-                                                null
-                                            )
-                                        } else
-                                            Preferences.saveStringInPreference(
-                                                Preferences.USER_TYPE,
-                                                "Patient"
-                                            )
-
                                         val intent =
                                             Intent(
                                                 this@LoginActivity,
@@ -531,5 +543,11 @@ class LoginActivity : AppCompatActivity() {
             otpBinding.tvTimer.setTextColor(resources.getColor(R.color.gray_light_color))
             otpBinding.tvTimer.text = getString(R.string.timer_zero)
         }
+    }
+
+    private fun clearUserDataFromPreference(){
+        Preferences.saveStringInPreference(Preferences.USER_ID, "")
+        Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
+        Preferences.saveStringInPreference(Preferences.MOBILE_NO, "")
     }
 }
