@@ -98,35 +98,44 @@ class LoginActivity : AppCompatActivity() {
                             mobileNo = mobNo
                         )
                         val response: Response<GenerateOTPResponseDO> = call.execute()
-                        val otpResponse: GenerateOTPResponseDO? = response.body()
-                        runOnUiThread {
-                            try {
-                                CustomLoader.hideLoader()
-                                if (otpResponse != null) {
-                                    if (otpResponse.statusCode == 200) {
+                        if (response.body() != null) {
+                            val otpResponse: GenerateOTPResponseDO? = response.body()
+                            runOnUiThread {
+                                try {
+                                    CustomLoader.hideLoader()
+                                    if (otpResponse != null) {
+                                        if (otpResponse.statusCode == 200) {
 
+                                        } else {
+                                            CustomAlertDialog.showDialog(
+                                                this@LoginActivity, getString(R.string.alert),
+                                                otpResponse.statusMessage,
+                                                getString(R.string.ok), "", "", true
+                                            )
+                                        }
                                     } else {
                                         CustomAlertDialog.showDialog(
                                             this@LoginActivity, getString(R.string.alert),
-                                            otpResponse.statusMessage,
+                                            response.message(),
                                             getString(R.string.ok), "", "", true
                                         )
                                     }
-                                } else {
+                                } catch (ex: Exception) {
+                                    CustomLoader.hideLoader()
                                     CustomAlertDialog.showDialog(
                                         this@LoginActivity, getString(R.string.alert),
-                                        response.message(),
+                                        ex.printStackTrace().toString(),
                                         getString(R.string.ok), "", "", true
                                     )
                                 }
-                            } catch (ex: Exception) {
-                                CustomLoader.hideLoader()
-                                CustomAlertDialog.showDialog(
-                                    this@LoginActivity, getString(R.string.alert),
-                                    ex.printStackTrace().toString(),
-                                    getString(R.string.ok), "", "", true
-                                )
                             }
+                        } else {
+                            CustomLoader.hideLoader()
+                            CustomAlertDialog.showDialog(
+                                this@LoginActivity, getString(R.string.alert),
+                                response.message().toString(),
+                                getString(R.string.ok), "", "", true
+                            )
                         }
                     }.start()
 
@@ -219,106 +228,118 @@ class LoginActivity : AppCompatActivity() {
                     val call =
                         RetrofitClient.apiInterface.validateUserOTP(mobileNo = mobNo, otp = otp)
                     val response: Response<ValidateOTPResponseDO> = call.execute()
-                    val otpValidationResponse: ValidateOTPResponseDO? = response.body()
-                    try {
-                        runOnUiThread {
-                            CustomLoader.hideLoader()
-                            if (otpValidationResponse != null) {
-                                if (otpValidationResponse.statusCode == 200) {
-                                    mCustomOTPDialog.dismiss()
-                                    otpValidationResponse.Data.Token.let {
-                                        Preferences.saveStringInPreference(
-                                            Preferences.GUID_TOKEN,
-                                            otpValidationResponse.Data.Token
-                                        )
-                                    }
+                    if (response.body() != null) {
+                        val otpValidationResponse: ValidateOTPResponseDO? = response.body()
+                        try {
+                            runOnUiThread {
+                                CustomLoader.hideLoader()
+                                if (otpValidationResponse != null) {
+                                    if (otpValidationResponse.statusCode == 200) {
+                                        mCustomOTPDialog.dismiss()
+                                        otpValidationResponse.Data.Token.let {
+                                            Preferences.saveStringInPreference(
+                                                Preferences.GUID_TOKEN,
+                                                otpValidationResponse.Data.Token
+                                            )
+                                        }
 
-                                    if (otpValidationResponse.Data.IsPatient) {
-                                        Preferences.saveStringInPreference(
-                                            Preferences.USER_TYPE,
-                                            "Patient"
-                                        )
-                                        otpValidationResponse.Data.PatientDetails.let {
-                                            Preferences.saveObjectInPreference(
-                                                Preferences.USER_DETAILS_DO,
-                                                otpValidationResponse.Data.PatientDetails
+                                        if (otpValidationResponse.Data.IsPatient) {
+                                            Preferences.saveStringInPreference(
+                                                Preferences.USER_TYPE,
+                                                "Patient"
+                                            )
+                                            otpValidationResponse.Data.PatientDetails.let {
+                                                Preferences.saveObjectInPreference(
+                                                    Preferences.USER_DETAILS_DO,
+                                                    otpValidationResponse.Data.PatientDetails
+                                                )
+
+                                                otpValidationResponse.Data.PatientDetails.Patient_Id.let {
+                                                    Preferences.saveStringInPreference(
+                                                        Preferences.USER_ID,
+                                                        otpValidationResponse.Data.PatientDetails.Patient_Id
+                                                    )
+                                                }
+
+                                                otpValidationResponse.Data.PatientDetails.Pd_Mobile_Number.let {
+                                                    Preferences.saveStringInPreference(
+                                                        Preferences.MOBILE_NO,
+                                                        otpValidationResponse.Data.PatientDetails.Pd_Mobile_Number
+                                                    )
+                                                }
+                                            }
+                                        } else {
+                                            Preferences.saveStringInPreference(
+                                                Preferences.USER_TYPE,
+                                                "Doctor"
                                             )
 
-                                            otpValidationResponse.Data.PatientDetails.Patient_Id.let {
-                                                Preferences.saveStringInPreference(
-                                                    Preferences.USER_ID,
-                                                    otpValidationResponse.Data.PatientDetails.Patient_Id
+                                            otpValidationResponse.Data.DoctorDetails.let {
+                                                Preferences.saveObjectInPreference(
+                                                    Preferences.USER_DETAILS_DO,
+                                                    otpValidationResponse.Data.DoctorDetails
                                                 )
-                                            }
 
-                                            otpValidationResponse.Data.PatientDetails.Pd_Mobile_Number.let {
-                                                Preferences.saveStringInPreference(
-                                                    Preferences.MOBILE_NO,
-                                                    otpValidationResponse.Data.PatientDetails.Pd_Mobile_Number
-                                                )
+                                                otpValidationResponse.Data.DoctorDetails.Dd_id.let {
+                                                    Preferences.saveStringInPreference(
+                                                        Preferences.USER_ID,
+                                                        otpValidationResponse.Data.DoctorDetails.Dd_id.toString()
+                                                    )
+                                                }
+
+                                                otpValidationResponse.Data.DoctorDetails.Dd_Phone.let {
+                                                    Preferences.saveStringInPreference(
+                                                        Preferences.MOBILE_NO,
+                                                        otpValidationResponse.Data.DoctorDetails.Dd_Phone
+                                                    )
+                                                }
                                             }
                                         }
-                                    } else {
-                                        Preferences.saveStringInPreference(
-                                            Preferences.USER_TYPE,
-                                            "Doctor"
-                                        )
 
-                                        otpValidationResponse.Data.DoctorDetails.let {
-                                            Preferences.saveObjectInPreference(
-                                                Preferences.USER_DETAILS_DO,
-                                                otpValidationResponse.Data.DoctorDetails
-                                            )
-
-                                            otpValidationResponse.Data.DoctorDetails.Dd_id.let {
-                                                Preferences.saveStringInPreference(
-                                                    Preferences.USER_ID,
-                                                    otpValidationResponse.Data.DoctorDetails.Dd_id.toString()
+                                        if (otpValidationResponse.Data.IsPatient && !otpValidationResponse.Data.IsRegisterUser) {
+                                            val intent =
+                                                Intent(
+                                                    this@LoginActivity,
+                                                    SignUpActivity::class.java
                                                 )
-                                            }
-
-                                            otpValidationResponse.Data.DoctorDetails.Dd_Phone.let {
-                                                Preferences.saveStringInPreference(
-                                                    Preferences.MOBILE_NO,
-                                                    otpValidationResponse.Data.DoctorDetails.Dd_Phone
+                                            intent.putExtra("MobileNo", mobNo)
+                                            startActivity(intent)
+                                        } else {
+                                            val intent =
+                                                Intent(
+                                                    this@LoginActivity,
+                                                    DashboardActivity::class.java
                                                 )
-                                            }
+                                            startActivity(intent)
                                         }
-                                    }
-
-                                    if (otpValidationResponse.Data.IsPatient && !otpValidationResponse.Data.IsRegisterUser) {
-                                        val intent =
-                                            Intent(this@LoginActivity, SignUpActivity::class.java)
-                                        intent.putExtra("MobileNo", mobNo)
-                                        startActivity(intent)
                                     } else {
-                                        val intent =
-                                            Intent(
-                                                this@LoginActivity,
-                                                DashboardActivity::class.java
-                                            )
-                                        startActivity(intent)
+                                        CustomAlertDialog.showDialog(
+                                            this@LoginActivity, getString(R.string.alert),
+                                            otpValidationResponse.statusMessage,
+                                            getString(R.string.ok), "", "", true
+                                        )
                                     }
                                 } else {
                                     CustomAlertDialog.showDialog(
                                         this@LoginActivity, getString(R.string.alert),
-                                        otpValidationResponse.statusMessage,
+                                        response.message(),
                                         getString(R.string.ok), "", "", true
                                     )
                                 }
-                            } else {
-                                CustomAlertDialog.showDialog(
-                                    this@LoginActivity, getString(R.string.alert),
-                                    response.message(),
-                                    getString(R.string.ok), "", "", true
-                                )
                             }
+                        } catch (ex: Exception) {
+                            CustomLoader.hideLoader()
+                            CustomAlertDialog.showDialog(
+                                this@LoginActivity, getString(R.string.alert),
+                                ex.printStackTrace().toString(),
+                                getString(R.string.ok), "", "", true
+                            )
                         }
-                    } catch (ex: Exception) {
+                    } else {
                         CustomLoader.hideLoader()
                         CustomAlertDialog.showDialog(
                             this@LoginActivity, getString(R.string.alert),
-                            ex.printStackTrace().toString(),
+                            response.message().toString(),
                             getString(R.string.ok), "", "", true
                         )
                     }
@@ -545,7 +566,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun clearUserDataFromPreference(){
+    private fun clearUserDataFromPreference() {
         Preferences.saveStringInPreference(Preferences.USER_ID, "")
         Preferences.saveStringInPreference(Preferences.GUID_TOKEN, "")
         Preferences.saveStringInPreference(Preferences.MOBILE_NO, "")

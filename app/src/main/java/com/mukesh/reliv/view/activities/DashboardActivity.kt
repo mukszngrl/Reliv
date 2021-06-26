@@ -60,15 +60,21 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                             Preferences.MESIBO_USER_TOKEN_RESPONSE_OBJECT,
                             mesiboUserTokenResponse
                         )
-                        Preferences.saveStringInPreference(
-                            Preferences.MESIBO_USER_TOKEN,
-                            mesiboUserTokenResponse.user.token
-                        )
-                        initialiseMesibo()
-                        Preferences.saveStringInPreference(
-                            Preferences.LAST_MESIBO_USER,
-                            Preferences.getStringFromPreference(Preferences.MOBILE_NO, "")!!
-                        )
+                        mesiboUserTokenResponse.user.let {
+                            it.token.let {
+                                Preferences.saveStringInPreference(
+                                    Preferences.MESIBO_USER_TOKEN,
+                                    mesiboUserTokenResponse.user.token
+                                )
+
+                                initialiseMesibo()
+
+                                Preferences.saveStringInPreference(
+                                    Preferences.LAST_MESIBO_USER,
+                                    Preferences.getStringFromPreference(Preferences.MOBILE_NO, "")!!
+                                )
+                            }
+                        }
                     }
                 })
         } else {
@@ -187,52 +193,60 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             val call =
                 RetrofitClient.apiInterface.getScheduledDetails(RetrofitClient.getHeaders())
             val response: Response<GetScheduleDetailsResponse> = call.execute()
-            val scheduleResponse: GetScheduleDetailsResponse? = response.body()
-            CustomLoader.hideLoader()
-            mBinding.swipeRefresh.isRefreshing = false
-
-            try {
-                runOnUiThread {
-                    scheduleResponse.let {
-                        if (scheduleResponse?.statusCode == 200) {
-                            if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "")
-                                    .equals("Patient")
-                            ) {
-                                if (scheduleResponse.Data.PatientSchedulingTimings != null) {
-                                    mBinding.rvBookedSlot.visibility = View.VISIBLE
-                                    mBinding.cvChat.visibility = View.GONE
-                                    scheduleAdapter.refresh(
-                                        scheduleResponse.Data.DoctorSchedulingTimings,
-                                        scheduleResponse.Data.PatientSchedulingTimings
-                                    )
+            if (response.body() != null) {
+                val scheduleResponse: GetScheduleDetailsResponse? = response.body()
+                CustomLoader.hideLoader()
+                mBinding.swipeRefresh.isRefreshing = false
+                try {
+                    runOnUiThread {
+                        scheduleResponse.let {
+                            if (scheduleResponse?.statusCode == 200) {
+                                if (Preferences.getStringFromPreference(Preferences.USER_TYPE, "")
+                                        .equals("Patient")
+                                ) {
+                                    if (scheduleResponse.Data.PatientSchedulingTimings != null) {
+                                        mBinding.rvBookedSlot.visibility = View.VISIBLE
+                                        mBinding.cvChat.visibility = View.GONE
+                                        scheduleAdapter.refresh(
+                                            scheduleResponse.Data.DoctorSchedulingTimings,
+                                            scheduleResponse.Data.PatientSchedulingTimings
+                                        )
+                                    } else {
+                                        mBinding.rvBookedSlot.visibility = View.GONE
+                                        mBinding.cvChat.visibility = View.VISIBLE
+                                    }
                                 } else {
-                                    mBinding.rvBookedSlot.visibility = View.GONE
-                                    mBinding.cvChat.visibility = View.VISIBLE
+                                    if (scheduleResponse.Data.DoctorSchedulingTimings != null) {
+                                        mBinding.rvBookedSlot.visibility = View.VISIBLE
+                                        mBinding.cvChat.visibility = View.GONE
+                                        scheduleAdapter.refresh(
+                                            scheduleResponse.Data.DoctorSchedulingTimings,
+                                            scheduleResponse.Data.PatientSchedulingTimings
+                                        )
+                                    } else {
+                                        mBinding.rvBookedSlot.visibility = View.GONE
+                                        mBinding.cvChat.visibility = View.VISIBLE
+                                    }
                                 }
                             } else {
-                                if (scheduleResponse.Data.DoctorSchedulingTimings != null) {
-                                    mBinding.rvBookedSlot.visibility = View.VISIBLE
-                                    mBinding.cvChat.visibility = View.GONE
-                                    scheduleAdapter.refresh(
-                                        scheduleResponse.Data.DoctorSchedulingTimings,
-                                        scheduleResponse.Data.PatientSchedulingTimings
-                                    )
-                                } else {
-                                    mBinding.rvBookedSlot.visibility = View.GONE
-                                    mBinding.cvChat.visibility = View.VISIBLE
-                                }
+                                mBinding.rvBookedSlot.visibility = View.GONE
+                                mBinding.cvChat.visibility = View.VISIBLE
                             }
-                        } else {
-                            mBinding.rvBookedSlot.visibility = View.GONE
-                            mBinding.cvChat.visibility = View.VISIBLE
                         }
                     }
+                } catch (ex: Exception) {
+                    CustomLoader.hideLoader()
+                    CustomAlertDialog.showDialog(
+                        this@DashboardActivity, getString(R.string.alert),
+                        ex.printStackTrace().toString(),
+                        getString(R.string.ok), "", "", true
+                    )
                 }
-            } catch (ex: Exception) {
+            } else {
                 CustomLoader.hideLoader()
                 CustomAlertDialog.showDialog(
                     this@DashboardActivity, getString(R.string.alert),
-                    ex.printStackTrace().toString(),
+                    response.message().toString(),
                     getString(R.string.ok), "", "", true
                 )
             }

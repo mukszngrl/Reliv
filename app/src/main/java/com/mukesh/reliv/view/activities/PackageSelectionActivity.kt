@@ -91,7 +91,7 @@ class PackageSelectionActivity : AppCompatActivity(), PaymentResultListener {
             jsonObject.put("amount", amount)
 
             // put mobile number
-            jsonObject.put("prefill.contact", userDO.Pd_Mobile_Number)
+            jsonObject.put("prefill.contact", "91${userDO.Pd_Mobile_Number}")
 
             // put email
             jsonObject.put("prefill.email", userDO.Pd_Email)
